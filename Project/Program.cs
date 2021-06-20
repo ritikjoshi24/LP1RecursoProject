@@ -6,9 +6,8 @@ namespace Project
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("     YOUR CARDS:");
 
-            Console.WriteLine("hello");
-            Console.ReadKey();
         }
     }
 }

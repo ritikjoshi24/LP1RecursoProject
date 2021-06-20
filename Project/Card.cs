@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using System.Linq;
 namespace Project
 {
     public class Card
@@ -12,7 +15,7 @@ namespace Project
 
         public enum VALUE
         {
-            ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, DRAWTWO, DRAWFOUR, SKIP, WILD, REVERSE
+            ZERO = '0', ONE = '1', TWO = '2', THREE = '3', FOUR = '4', FIVE = '5', SIX = '6', SEVEN = '7', EIGHT = '8', NINE = '9', DRAWTWO = 'b', DRAWFOUR = 'a', SKIP = 'c', WILD = 'd', REVERSE = 'e'
         }
 
         public COLORCARD mycard { get; set; }

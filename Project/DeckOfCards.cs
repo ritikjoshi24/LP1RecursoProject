@@ -5,7 +5,6 @@ namespace Project
     public class DeckOfCards
     {
         public List<Card> cards { get; set; }
-        int NUM_OF_CARDS = 112;
         public void CardDeck()
         {
             cards = new List<Card>();
