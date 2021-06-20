@@ -5,7 +5,7 @@ namespace Project
     public class DeckOfCards
     {
         public List<Card> cards { get; set; }
-
+        int NUM_OF_CARDS = 112;
         public void CardDeck()
         {
             cards = new List<Card>();
@@ -68,10 +68,26 @@ namespace Project
                         });
                     }
                 }
-
+                CardShuffle();
             }
 
         }
+        public void CardShuffle()
+        {
+            Random rand = new Random();
+            List<Card> card = cards;
+            Card temp;
 
+            for (long shuffleTimes = 0; shuffleTimes < 1000; shuffleTimes++)
+            {
+                for (int j = card.Count - 1; j > 0; --j)
+                {
+                    int secondCardIndex = rand.Next(j + 1);
+                    temp = card[j];
+                    card[j] = card[secondCardIndex];
+                    card[secondCardIndex] = temp;
+                }
+            }
+        }
     }
 }
