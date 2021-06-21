@@ -15,7 +15,7 @@ namespace Project
 
         public enum VALUE
         {
-            ZERO = '0', ONE = '1', TWO = '2', THREE = '3', FOUR = '4', FIVE = '5', SIX = '6', SEVEN = '7', EIGHT = '8', NINE = '9', DRAWTWO = 'b', DRAWFOUR = 'a', SKIP = 'c', WILD = 'd', REVERSE = 'e', EMPTY = 'm'
+            ZERO = '0', ONE = '1', TWO = '2', THREE = '3', FOUR = '4', FIVE = '5', SIX = '6', SEVEN = '7', EIGHT = '8', NINE = '9', DRAWTWO = 'b', DRAWFOUR = 'a', SKIP = 'c', WILD = 1421, REVERSE = 1146, EMPTY = 'm'
         }
 
         public COLORCARD mycard { get; set; }

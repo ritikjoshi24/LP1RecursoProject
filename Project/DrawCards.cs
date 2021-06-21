@@ -8,7 +8,7 @@ namespace Project
     class DrawCards
     {
 
-        public void DrawCardValue(Card card)
+        public static void DrawCardValue(Card card)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace Project
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                         break;
                 }
-                Console.Write(card.myValue + "\t");
+                Console.Write(card.myValue + " " + card.mycard + " --- ");
                 Console.ForegroundColor = ConsoleColor.White;
             }
             catch
