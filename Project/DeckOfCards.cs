@@ -8,7 +8,7 @@ namespace Project
     public class DeckOfCards : Card
     {
         const long NUM_OF_CARDS = 112;
-        private Card[] deck;
+        public Card[] deck;
         public DeckOfCards()
         {
             deck = new Card[NUM_OF_CARDS];

@@ -31,9 +31,13 @@ namespace Project
 
         public void PlayMenu()
         {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("             WHAT YOU WANT TO PLAY");
             Console.WriteLine("+---------------------------------------------+");
-            Console.WriteLine("             what you want to play");
-            Console.WriteLine("1st to last --- to choosen card for play");
+
+            Console.WriteLine("1 to last   --- to choosen card for play");
+            Console.WriteLine("pick        --- to pick up new card");
             Console.WriteLine("show        --- to show the main menu again");
             Console.WriteLine("help        --- to show the help menu");
             Console.WriteLine("back        --- to go back to main menu");
@@ -47,6 +51,80 @@ namespace Project
         public void Correct()
         {
             Console.WriteLine("Please enter the correct number");
+        }
+        public void Player1()
+        {
+            Console.WriteLine();
+            Console.WriteLine("---------------PLAYER'S ONE HAND----------------------");
+            Console.WriteLine();
+        }
+        public void Player1Junk()
+        {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("---------------PLAYER'S TWO HAND----------------------");
+            Console.WriteLine();
+            Console.WriteLine("-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("---------------PLAYER'S THREE HAND----------------------");
+            Console.WriteLine();
+            Console.WriteLine("-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#");
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------");
+        }
+        public void Player2()
+        {
+            Console.WriteLine();
+            Console.WriteLine("---------------PLAYER'S ONE HAND----------------------");
+            Console.WriteLine();
+            Console.WriteLine("-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("---------------PLAYER'S TWO HAND----------------------");
+        }
+        public void player3()
+        {
+            Console.WriteLine();
+            Console.WriteLine("---------------PLAYER'S ONE HAND----------------------");
+            Console.WriteLine();
+            Console.WriteLine("-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#");
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("---------------PLAYER'S TWO HAND----------------------");
+            Console.WriteLine();
+            Console.WriteLine("-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#");
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("---------------PLAYER'S THREE HAND----------------------");
+        }
+        public void Player2Junk()
+        {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("---------------PLAYER'S THREE HAND----------------------");
+            Console.WriteLine();
+            Console.WriteLine("-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#");
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------");
+        }
+        public void LineDash()
+        {
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------");
         }
     }
 }
