@@ -35,13 +35,23 @@ namespace Project
             Console.WriteLine();
             Console.WriteLine("             WHAT YOU WANT TO PLAY");
             Console.WriteLine("+---------------------------------------------+");
-
             Console.WriteLine("1 to last   --- to choosen card for play");
             Console.WriteLine("pick        --- to pick up new card");
             Console.WriteLine("show        --- to show the main menu again");
             Console.WriteLine("help        --- to show the help menu");
             Console.WriteLine("back        --- to go back to main menu");
             Console.WriteLine("+---------------------------------------------+");
+        }
+        public int UserInput(int input)
+        {
+            Console.Write("\n> ");
+            return int.Parse(Console.ReadLine());
+        }
+        public void InvalidOption()
+        {
+            Console.WriteLine("\nInvalid option.Press any key to continue");
+            Console.ReadKey();
+            Console.WriteLine();
         }
         public void Help()
         {

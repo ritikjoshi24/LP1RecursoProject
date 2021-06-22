@@ -11,7 +11,9 @@ namespace Project
         public Card[] deck;
         public DeckOfCards()
         {
+
             deck = new Card[NUM_OF_CARDS];
+
         }
         public Card[] getDeck { get { return deck; } }
         public void CardDeck()

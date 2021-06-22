@@ -30,7 +30,8 @@ namespace Project
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                         break;
                 }
-                Console.Write(card.myValue + " " + card.mycard + " --- ");
+                Console.Write(" --- " + card.myValue + " " + card.mycard + " --- ");
+
                 Console.ForegroundColor = ConsoleColor.White;
             }
             catch

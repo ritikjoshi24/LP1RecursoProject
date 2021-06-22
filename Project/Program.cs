@@ -13,6 +13,7 @@ namespace Project
             GameManager gameManager = new GameManager(players);
             View view = new View(gameManager, players);
             gameManager.Run(view);
+            /*    */
         }
     }
 }

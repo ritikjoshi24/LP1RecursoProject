@@ -11,6 +11,7 @@ namespace Project
         public Card[] player2Hand;
         public Card[] player3Hand;
         public Card[] DeckPile;
+        public Card[] PickAbleCard;
 
         public Players()
         {
@@ -18,6 +19,7 @@ namespace Project
             player2Hand = new Card[20];
             player3Hand = new Card[20];
             DeckPile = new Card[112];
+            PickAbleCard = new Card[112];
         }
 
 
