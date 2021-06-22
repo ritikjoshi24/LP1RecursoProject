@@ -12,7 +12,7 @@ namespace Project
         {
             try
             {
-                switch (card.mycard)
+                switch (card.myCard)
                 {
                     case Card.COLORCARD.RED:
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -30,7 +30,7 @@ namespace Project
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                         break;
                 }
-                Console.Write(" --- " + card.myValue + " " + card.mycard + " --- ");
+                Console.Write(" --- " + card.myValue + " " + card.myCard + " --- ");
 
                 Console.ForegroundColor = ConsoleColor.White;
             }

@@ -18,7 +18,7 @@ namespace Project
             ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9, DRAWTWO = 10, DRAWFOUR = 11, SKIP = 12, WILD = 13, REVERSE = 15, EMPTY = 16
         }
 
-        public COLORCARD mycard { get; set; }
+        public COLORCARD myCard { get; set; }
         public VALUE myValue { get; set; }
     }
 }

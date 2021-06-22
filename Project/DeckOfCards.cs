@@ -40,16 +40,16 @@ namespace Project
                             case VALUE.REVERSE:
                             case VALUE.DRAWTWO:
                             case VALUE.SKIP:
-                                deck[i] = new Card { mycard = color, myValue = value };
+                                deck[i] = new Card { myCard = color, myValue = value };
                                 i++;
-                                deck[i] = new Card { mycard = color, myValue = value };
+                                deck[i] = new Card { myCard = color, myValue = value };
                                 i++;
                                 break;
 
                             case VALUE.ZERO:
-                                deck[i] = new Card { mycard = color, myValue = value };
+                                deck[i] = new Card { myCard = color, myValue = value };
                                 i++;
-                                deck[i] = new Card { mycard = color, myValue = VALUE.EMPTY };
+                                deck[i] = new Card { myCard = color, myValue = VALUE.EMPTY };
                                 i++;
                                 break;
                         }
@@ -59,9 +59,9 @@ namespace Project
                 {
                     for (long j = 1; j <= 4; j++)
                     {
-                        deck[i] = new Card { mycard = color, myValue = VALUE.DRAWFOUR };
+                        deck[i] = new Card { myCard = color, myValue = VALUE.DRAWFOUR };
                         i++;
-                        deck[i] = new Card { mycard = color, myValue = VALUE.WILD };
+                        deck[i] = new Card { myCard = color, myValue = VALUE.WILD };
                         i++;
                     }
                 }
