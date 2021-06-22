@@ -65,19 +65,28 @@ namespace Project
         public void Player1()
         {
             Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("+---------------------------------------------------------------------------------------------------+");
+            Console.WriteLine("+------DECK OF CARDS ---------------DECK PILE CARD------------------+");
+            Console.WriteLine("       --------------         -----------------------");
+            Console.WriteLine("       |            |         |                      |");
+            Console.Write("       |     " + players.deckSize + "     |         #");
+            DrawCards.DrawCardValue(players.DeckPile[0]);
+            Console.WriteLine();
+            Console.WriteLine("       |            |         |                      |");
+            Console.WriteLine("       --------------         -----------------------");
+            Console.WriteLine();
             Console.WriteLine("---------------PLAYER'S ONE HAND----------------------");
             Console.WriteLine();
         }
         public void Player1Junk()
         {
             Console.WriteLine();
-            Console.WriteLine();
             Console.WriteLine("------------------------------------------------------");
             Console.WriteLine();
             Console.WriteLine("---------------PLAYER'S TWO HAND----------------------");
             Console.WriteLine();
             Console.WriteLine("-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#");
-            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("------------------------------------------------------");
             Console.WriteLine();
@@ -91,8 +100,6 @@ namespace Project
         public void Player2()
         {
             Console.WriteLine();
-            Console.WriteLine("---------------PLAYER'S ONE HAND----------------------");
-            Console.WriteLine();
             Console.WriteLine("-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#");
             Console.WriteLine();
             Console.WriteLine();
@@ -100,10 +107,8 @@ namespace Project
             Console.WriteLine();
             Console.WriteLine("---------------PLAYER'S TWO HAND----------------------");
         }
-        public void player3()
+        public void Player3()
         {
-            Console.WriteLine();
-            Console.WriteLine("---------------PLAYER'S ONE HAND----------------------");
             Console.WriteLine();
             Console.WriteLine("-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#");
             Console.WriteLine();
@@ -135,6 +140,18 @@ namespace Project
         {
             Console.WriteLine();
             Console.WriteLine("------------------------------------------------------");
+        }
+        public void PlayersRemain()
+        {
+            Console.WriteLine();
+            if (gameManager.p == 1)
+                Console.WriteLine("---------------PLAYER'S ONE REMAINING----------------------");
+            else if (gameManager.p == 2)
+                Console.WriteLine("---------------PLAYER'S TWO REMAINING----------------------");
+            else if (gameManager.p == 3)
+                Console.WriteLine("---------------PLAYER'S THREE REMAINING----------------------");
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }

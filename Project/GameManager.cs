@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 namespace Project
 {
-    class GameManager : DeckOfCards
+    class GameManager
     {
         private Players players;
         private View view;
@@ -14,21 +14,19 @@ namespace Project
         int userInput1;
         string input1;
         public int p;
-        long P1size, P2size, P3size, deckSize;
+        bool isReverse;
         public GameManager(Players players)
         {
             this.players = players;
-            p = 1;
-            deckSize = 91;
-            P1size = 7;
-            P2size = 7;
-            P3size = 7;
+            p = 4;
             userInput1 = 1;
+            isReverse = false;
         }
         public void Run(View view)
         {
             this.view = view;
             view.sos();
+
             do
             {
                 input1 = view.takinginput(input);
@@ -55,7 +53,6 @@ namespace Project
 
         public void Play()
         {
-
             do
             {
                 view.PlayMenu();
@@ -85,10 +82,13 @@ namespace Project
                     case 20:
                         remove();
                         p++;
+                        Turn();
                         break;
 
                     case 90:
-                        Turn();
+                        p = 4;
+                        remove();
+                        p = 1;
                         break;
 
                     case 91: // to show main menu again
@@ -101,171 +101,140 @@ namespace Project
                     case 93:
                         Run(view);
                         break;
+                    default:
+                        view.InvalidOption();
+                        break;
                 }
             } while (userInput1 != 93);
         }
         public void Deal()
         {
-            CardDeck();
-            CardShuffle();// create the deck of card and shuffle it
-            getHand();
+            players.CardDeck();
+            players.CardShuffle();// create the deck of card and shuffle it
+            players.getHand();
+            remove();
             Turn();
         }
 
 
         public void Turn()
         {
-
             if (p == 1)
             {
-                displayPlayer1Cards();
-
+                displayPlayer1();
             }
             else if (p == 2)
             {
-                displayPlayer2Cards();
+                displayPlayer2();
 
             }
             else if (p == 3)
             {
-                displayPlayer3Cards();
-            }
-            else
-            {
-                displayPlayer1Cards();
+                displayPlayer3();
             }
             Play();
         }
-        public void getHand()
+        public void displayPlayer1()
         {
-
-            for (long i = 105; i < 112; i++)
-                players.player1Hand[i - 105] = getDeck[i];
-            for (long i = 98; i < 105; i++)
-                players.player2Hand[i - 98] = getDeck[i];
-            for (long i = 91; i < 98; i++)
-                players.player3Hand[i - 91] = getDeck[i];
-            for (long i = 0; i < 91; i++)
-                players.DeckPile[i] = getDeck[i];
-            players.PickAbleCard[0] = players.DeckPile[0];
-            p = 4;
-            remove();
-        }
-        public void displayPlayer1Cards()
-        {
-            Card card = new Card();
-            card.mycard = Card.COLORCARD.WILDCOLOR;
-            card.myValue = Card.VALUE.WILD;
-            Console.WriteLine("+-------------------------------------------------------+");
-            Console.WriteLine("+------DECK OF CARDS ---------------DECK PILE CARD--------+");
-            Console.WriteLine("       --------------         -----------------------");
-            Console.WriteLine("       |            |         |                      |");
-            Console.Write("       |     " + deckSize + "     |         #");
-            DrawCards.DrawCardValue(players.PickAbleCard[0]);
-            Console.WriteLine();
-            Console.WriteLine("       |            |         |                      |");
-            Console.WriteLine("       --------------         -----------------------");
             view.Player1();
-            //for (long i = 0; i < deckSize; i++)
-            //  DrawCards.DrawCardValue(players.DeckPile[i]);
-            for (long i = 0; i < P1size; i++)
-                DrawCards.DrawCardValue(players.player1Hand[i]);
-            Console.WriteLine();
-            // DrawCards.DrawCardValue(players.DeckPile[j - 1]);
+            players.displayPlayer1Cards();
             view.Player1Junk();
         }
-        public void displayPlayer2Cards()
+        public void displayPlayer2()
         {
+            view.Player1();
             view.Player2();
-            for (long i = 0; i < 7; i++)
-                DrawCards.DrawCardValue(players.player2Hand[i]);
+            players.displayPlayer2Cards();
             view.Player2Junk();
         }
-        public void displayPlayer3Cards()
-        {
-            view.player3();
-            for (long i = 0; i < 7; i++)
-                DrawCards.DrawCardValue(players.player3Hand[i]);
 
+        public void displayPlayer3()
+        {
+            view.Player1();
+            view.Player3();
+            players.displayPlayer3Cards();
             view.LineDash();
         }
-
         public void remove()
         {
 
             if (p == 1)
             {
-                if (userInput1 < 0 || userInput1 > P1size)
+                if (userInput1 < 0 || userInput1 > players.P1size)
                 {
-                    for (long i = 0; i < P1size; i++)
+                    for (long i = 0; i < players.P1size; i++)
                         DrawCards.DrawCardValue(players.player1Hand[i]);
                     Play();
                 }
                 else
                 {
                     // Copy next element value to current element 
-                    for (long i = userInput1 - 1; i < P1size - 1; i++)
+                    for (long i = userInput1 - 1; i < players.P1size - 1; i++)
                     {
                         players.player1Hand[i] = players.player1Hand[i + 1];
                     }
 
-                    // Decrement array P1size by 1 
-                    P1size--;
-                    displayPlayer1Cards();
+                    // Decrement array players.P1size by 1 
+                    players.P1size--;
+                    view.PlayersRemain();
+                    players.displayPlayer1Cards();
                 }
             }
             else if (p == 2)
             {
-                if (userInput1 < 0 || userInput1 > P2size)
+                if (userInput1 < 0 || userInput1 > players.P2size)
                 {
-                    for (long i = 0; i < P2size; i++)
+                    for (long i = 0; i < players.P2size; i++)
                         DrawCards.DrawCardValue(players.player1Hand[i]);
                     Play();
                 }
                 else
                 {
                     // Copy next element value to current element 
-                    for (long i = userInput1 - 1; i < P2size - 1; i++)
+                    for (long i = userInput1 - 1; i < players.P2size - 1; i++)
                     {
                         players.player2Hand[i] = players.player2Hand[i + 1];
                     }
 
-                    // Decrement array P2size by 1 
-                    P2size--;
-                    displayPlayer2Cards();
+                    // Decrement array players.P2size by 1 
+                    players.P2size--;
+                    view.PlayersRemain();
+                    players.displayPlayer2Cards();
                 }
             }
             else if (p == 3)
             {
-                if (userInput1 < 0 || userInput1 > P3size)
+                if (userInput1 < 0 || userInput1 > players.P3size)
                 {
-                    for (long i = 0; i < P3size; i++)
+                    for (long i = 0; i < players.P3size; i++)
                         DrawCards.DrawCardValue(players.player3Hand[i]);
                     Play();
                 }
                 else
                 {
                     // Copy next element value to current element 
-                    for (long i = userInput1 - 1; i < P3size - 1; i++)
+                    for (long i = userInput1 - 1; i < players.P3size - 1; i++)
                     {
                         players.player3Hand[i] = players.player3Hand[i + 1];
                     }
 
-                    // Decrement array P3size by 1 
-                    P3size--;
-                    displayPlayer3Cards();
+                    // Decrement array players.P3size by 1 
+                    players.P3size--;
+                    view.PlayersRemain();
+                    players.displayPlayer3Cards();
+
                 }
             }
-            else
+            else if (p == 4)
             {  // Copy next element value to current element 
-                for (long i = userInput1 - 1; i < deckSize - 1; i++)
+                for (long i = userInput1 - 1; i < players.deckSize - 1; i++)
                 {
-                    players.DeckPile[i] = players.DeckPile[i + 1];
+                    players.PickAbleCard[i] = players.PickAbleCard[i + 1];
                 }
-                // Decrement array decksize by 1 
-                deckSize--;
+                // Decrement array players.deckSize by 1 
+                players.deckSize--;
+                p = 1;
             }
         }
-
     }
 }
