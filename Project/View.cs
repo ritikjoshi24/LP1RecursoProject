@@ -11,7 +11,7 @@ namespace Project
             this.gameManager = gameManager;
             this.players = players;
         }
-        public void sos() // this is the main menu
+        public void Sos() // this is the main menu
         {
             Console.WriteLine("+---------------------------------------------+");
             Console.WriteLine("play  --- play the game");
@@ -21,7 +21,7 @@ namespace Project
             Console.WriteLine("+---------------------------------------------+");
         }
 
-        public string takinginput(string input)
+        public string Takinginput(string input)
         {
             Console.Write("\n> ");
             input = Console.ReadLine();
@@ -35,11 +35,11 @@ namespace Project
             Console.WriteLine();
             Console.WriteLine("             WHAT YOU WANT TO PLAY");
             Console.WriteLine("+---------------------------------------------+");
-            Console.WriteLine("1 to last   --- to choosen card for play");
-            Console.WriteLine("pick        --- to pick up new card");
-            Console.WriteLine("show        --- to show the main menu again");
-            Console.WriteLine("help        --- to show the help menu");
-            Console.WriteLine("back        --- to go back to main menu");
+            Console.WriteLine("1 to last --- to choosen card for play");
+            Console.WriteLine("90        --- to pick up new card");
+            Console.WriteLine("91        --- to show the main menu again");
+            Console.WriteLine("92        --- to show the help menu");
+            Console.WriteLine("93        --- to go back to main menu");
             Console.WriteLine("+---------------------------------------------+");
         }
         public int UserInput(int input)
@@ -53,6 +53,11 @@ namespace Project
             Console.ReadKey();
             Console.WriteLine();
         }
+        public void PlayerTurn()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Player " + gameManager.p + " Turn");
+        }
         public void Help()
         {
             Console.WriteLine("    Help Menu");
@@ -60,7 +65,7 @@ namespace Project
         }
         public void Correct()
         {
-            Console.WriteLine("Please enter the correct number");
+            Console.WriteLine("Please enter the correct number between size of your Hand");
         }
         public void Player1()
         {
@@ -152,6 +157,12 @@ namespace Project
                 Console.WriteLine("---------------PLAYER'S THREE REMAINING----------------------");
             Console.WriteLine();
             Console.WriteLine();
+        }
+        public void Win()
+        {
+            Console.WriteLine("Player " + gameManager.p + " Wins!");
+            Console.WriteLine("Press any key to quit the program......");
+            Console.ReadKey();
         }
     }
 }

@@ -7,7 +7,6 @@ namespace Project
 {
     class Players : DeckOfCards
     {
-        private View view;
         public Card[] player1Hand;
         public Card[] player2Hand;
         public Card[] player3Hand;
@@ -26,7 +25,7 @@ namespace Project
             P2size = 7;
             P3size = 7;
         }
-        public void getHand()
+        public void GetHand()
         {
 
             for (long i = 105; i < 112; i++)
@@ -39,19 +38,19 @@ namespace Project
                 PickAbleCard[i] = getDeck[i];
             DeckPile[0] = PickAbleCard[0];
         }
-        public void displayPlayer1Cards()
+        public void DisplayPlayer1Cards()
         {
             for (long i = 0; i < P1size; i++)
                 DrawCards.DrawCardValue(player1Hand[i]);
 
         }
-        public void displayPlayer2Cards()
+        public void DisplayPlayer2Cards()
         {
             for (long i = 0; i < P2size; i++)
                 DrawCards.DrawCardValue(player2Hand[i]);
 
         }
-        public void displayPlayer3Cards()
+        public void DisplayPlayer3Cards()
         {
             for (long i = 0; i < P3size; i++)
                 DrawCards.DrawCardValue(player3Hand[i]);
