@@ -68,7 +68,7 @@ namespace Project
         {
             Console.WriteLine("Please enter the correct number between size of your Hand");
         }
-        public void Player1()
+        public void Deck()
         {
             Console.WriteLine();
             Console.WriteLine();
@@ -76,15 +76,19 @@ namespace Project
             Console.WriteLine("+------DECK OF CARDS ---------------DECK PILE CARD------------------+");
             Console.WriteLine("       --------------         -----------------------");
             Console.WriteLine("       |            |         |                      |");
-            Console.Write("       |     " + players.deckSize + "     |         #");
+            Console.Write("       |     " + players.deckSize + "     |         ");
             DrawCards.DrawCardValue(players.DeckPile[0]);
             Console.WriteLine();
             Console.WriteLine("       |            |         |                      |");
             Console.WriteLine("       --------------         -----------------------");
+        }
+        public void Player1()
+        {
             Console.WriteLine();
             Console.WriteLine("---------------PLAYER'S ONE HAND----------------------");
             Console.WriteLine();
         }
+
         public void Player1Junk()
         {
             Console.WriteLine();

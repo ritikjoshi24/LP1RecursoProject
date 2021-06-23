@@ -47,9 +47,9 @@ namespace Project
                                 break;
 
                             case VALUE.ZERO:
-                                deck[i] = new Card { myCard = color, myValue = value };
-                                i++;
                                 deck[i] = new Card { myCard = color, myValue = VALUE.EMPTY };
+                                i++;
+                                deck[i] = new Card { myCard = color, myValue = value };
                                 i++;
                                 break;
                         }
@@ -59,28 +59,31 @@ namespace Project
                 {
                     for (long j = 1; j <= 4; j++)
                     {
-                        deck[i] = new Card { myCard = color, myValue = VALUE.DRAWFOUR };
+                        deck[i] = new Card { myCard = COLORCARD.WILDCOLOR, myValue = VALUE.DRAWFOUR };
                         i++;
-                        deck[i] = new Card { myCard = color, myValue = VALUE.WILD };
+                        deck[i] = new Card { myCard = COLORCARD.WILDCOLOR, myValue = VALUE.WILD };
                         i++;
                     }
                 }
             }
-
-            CardShuffle();
+            //     CardShuffle();
         }
         public void CardShuffle()
         {
             Random rand = new Random();
             Card temp;
-            for (int k = 0; k < NUM_OF_CARDS; k++)
+            // Shuffle 1000 times
+            for (long shuffle = 0; shuffle < 1000; shuffle++)
             {
-                int secondCardIndex = rand.Next(k + 1);
-                temp = deck[k];
-                deck[k] = deck[secondCardIndex];
-                deck[secondCardIndex] = temp;
+                for (int k = 0; k < NUM_OF_CARDS; k++)
+                {
+                    int secondCardIndex = rand.Next(k + 1);
+                    temp = deck[k];
+                    deck[k] = deck[secondCardIndex];
+                    deck[secondCardIndex] = temp;
+                }
             }
-        }
 
+        }
     }
 }

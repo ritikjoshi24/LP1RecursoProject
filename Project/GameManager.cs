@@ -113,7 +113,7 @@ namespace Project
                             view.InvalidOption();
                             break;
                     }
-                } while ((userInput1 != 93) || (win));
+                } while ((userInput1 != 93));
             }
             catch
             {
@@ -123,9 +123,9 @@ namespace Project
         public void Deal()
         {
             players.CardDeck();
-            players.CardShuffle();// create the deck of card and shuffle it
+            //  players.CardShuffle();// create the deck of card and shuffle it
             players.GetHand();
-            PickAbleCard();
+            players.PutOnPile();
             Turn();
         }
         public void Turn()
@@ -164,12 +164,14 @@ namespace Project
         }
         public void DisplayPlayer1()
         {
+            view.Deck();
             view.Player1();
             players.DisplayPlayer1Cards();
             view.Player1Junk();
         }
         public void DisplayPlayer2()
         {
+            view.Deck();
             view.Player1();
             view.Player2();
             players.DisplayPlayer2Cards();
@@ -177,6 +179,7 @@ namespace Project
         }
         public void DisplayPlayer3()
         {
+            view.Deck();
             view.Player1();
             view.Player3();
             players.DisplayPlayer3Cards();
@@ -184,17 +187,21 @@ namespace Project
         }
         public void Display()
         {
+            view.Deck();
             if (p == 1)
             {
                 players.DisplayPlayer1Cards();
+                Console.WriteLine("\nPlayer " + p + " size" + players.P1size);
             }
             else if (p == 2)
             {
                 players.DisplayPlayer2Cards();
+                Console.WriteLine("\nPlayer " + p + " size" + players.P2size);
             }
             else
             {
                 players.DisplayPlayer3Cards();
+                Console.WriteLine("\nPlayer " + p + " size" + players.P3size);
             }
         }
         public void Remove()
@@ -216,7 +223,7 @@ namespace Project
                     }
                     // Decrement array players.P1size by 1 
                     players.P1size--;
-                    Check();
+                    CheckWin();
                     view.PlayersRemain();
                     players.DisplayPlayer1Cards();
                 }
@@ -238,7 +245,7 @@ namespace Project
                     }
                     // Decrement array players.P2size by 1 
                     players.P2size--;
-                    Check();
+                    CheckWin();
                     view.PlayersRemain();
                     players.DisplayPlayer2Cards();
                 }
@@ -260,22 +267,13 @@ namespace Project
                     }
                     // Decrement array players.P3size by 1 
                     players.P3size--;
-                    Check();
+                    CheckWin();
                     view.PlayersRemain();
                     players.DisplayPlayer3Cards();
                 }
             }
         }
-        public void PickAbleCard()
-        {
-            // Copy next element value to current element 
-            for (long i = 0; i < players.deckSize - 1; i++)
-            {
-                players.PickAbleCard[i] = players.PickAbleCard[i + 1];
-            }
-            // Decrement array players.deckSize by 1 
-            players.deckSize--;
-        }
+
         public void PickCard()
         {
             if (p == 1)
@@ -318,7 +316,7 @@ namespace Project
                 players.deckSize--;
             }
         }
-        public void Check()
+        public void CheckWin()
         {
             if (players.P1size == 0 || players.P2size == 0 || players.P3size == 0)
             {
