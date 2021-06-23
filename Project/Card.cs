@@ -7,19 +7,18 @@ namespace Project
 {
     public class Card
     {
-
-        public enum COLORCARD
+        public enum ColorCard
         {
-            GREEN, YELLOW, WILDCOLOR, RED, BLUE
+            Green, Yellow, WildColor, Red, Blue
         }
 
-        public enum VALUE
+        public enum Value
         {
-            ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9, DRAWTWO = 10, DRAWFOUR = 11, SKIP = 12, WILD = 13, REVERSE = 15, EMPTY = 16
+            Zero = 0, One = 1, Two = 2, Three = 3, Four = 4, Five = 5, Six = 6, Seven = 7, Eight = 8, Nine = 9, DrawTwo = 10, DrawFour = 11, Skip = 12, Wild = 13, Reverse = 15, Blank = 16
         }
 
-        public COLORCARD myCard { get; set; }
-        public VALUE myValue { get; set; }
+        public ColorCard myCard { get; set; }
+        public Value myValue { get; set; }
     }
 }
 

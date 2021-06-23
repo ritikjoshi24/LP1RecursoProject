@@ -20,36 +20,36 @@ namespace Project
         {
             long i = 0;
 
-            foreach (COLORCARD color in Enum.GetValues(typeof(COLORCARD)))
+            foreach (ColorCard color in Enum.GetValues(typeof(ColorCard)))
             {
-                if (color != COLORCARD.WILDCOLOR)
+                if (color != ColorCard.WildColor)
                 {
-                    foreach (VALUE value in Enum.GetValues(typeof(VALUE)))
+                    foreach (Value value in Enum.GetValues(typeof(Value)))
                     {
                         switch (value)
                         {
-                            case VALUE.ONE:
-                            case VALUE.THREE:
-                            case VALUE.TWO:
-                            case VALUE.FOUR:
-                            case VALUE.SIX:
-                            case VALUE.NINE:
-                            case VALUE.SEVEN:
-                            case VALUE.FIVE:
-                            case VALUE.EIGHT:
-                            case VALUE.REVERSE:
-                            case VALUE.DRAWTWO:
-                            case VALUE.SKIP:
+                            case Value.One:
+                            case Value.Three:
+                            case Value.Two:
+                            case Value.Four:
+                            case Value.Six:
+                            case Value.Nine:
+                            case Value.Seven:
+                            case Value.Five:
+                            case Value.Eight:
+                            case Value.Reverse:
+                            case Value.DrawFour:
+                            case Value.Skip:
                                 deck[i] = new Card { myCard = color, myValue = value };
                                 i++;
                                 deck[i] = new Card { myCard = color, myValue = value };
                                 i++;
                                 break;
 
-                            case VALUE.ZERO:
-                                deck[i] = new Card { myCard = color, myValue = VALUE.EMPTY };
-                                i++;
+                            case Value.Zero:
                                 deck[i] = new Card { myCard = color, myValue = value };
+                                i++;
+                                deck[i] = new Card { myCard = color, myValue = Value.Blank };
                                 i++;
                                 break;
                         }
@@ -59,31 +59,28 @@ namespace Project
                 {
                     for (long j = 1; j <= 4; j++)
                     {
-                        deck[i] = new Card { myCard = COLORCARD.WILDCOLOR, myValue = VALUE.DRAWFOUR };
+                        deck[i] = new Card { myCard = color, myValue = Value.DrawFour };
                         i++;
-                        deck[i] = new Card { myCard = COLORCARD.WILDCOLOR, myValue = VALUE.WILD };
+                        deck[i] = new Card { myCard = color, myValue = Value.Wild };
                         i++;
                     }
                 }
             }
-            //     CardShuffle();
+
+            CardShuffle();
         }
         public void CardShuffle()
         {
             Random rand = new Random();
             Card temp;
-            // Shuffle 1000 times
-            for (long shuffle = 0; shuffle < 1000; shuffle++)
+            for (int k = 0; k < NUM_OF_CARDS; k++)
             {
-                for (int k = 0; k < NUM_OF_CARDS; k++)
-                {
-                    int secondCardIndex = rand.Next(k + 1);
-                    temp = deck[k];
-                    deck[k] = deck[secondCardIndex];
-                    deck[secondCardIndex] = temp;
-                }
+                int secondCardIndex = rand.Next(k + 1);
+                temp = deck[k];
+                deck[k] = deck[secondCardIndex];
+                deck[secondCardIndex] = temp;
             }
-
         }
+
     }
 }
