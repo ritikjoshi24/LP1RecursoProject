@@ -15,9 +15,9 @@ namespace Project
         public long P1size, P2size, P3size, deckSize;
         public Players()
         {
-            player1Hand = new Card[20];
-            player2Hand = new Card[20];
-            player3Hand = new Card[20];
+            player1Hand = new Card[40];
+            player2Hand = new Card[40];
+            player3Hand = new Card[40];
             DeckPile = new Card[112];
             PickAbleCard = new Card[112];
             deckSize = 91;
