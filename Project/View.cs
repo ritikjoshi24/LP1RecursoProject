@@ -13,6 +13,7 @@ namespace Project
         }
         public void Sos() // this is the main menu
         {
+            Console.WriteLine();
             Console.WriteLine("+---------------------------------------------+");
             Console.WriteLine("play  --- play the game");
             Console.WriteLine("show  --- to show the main menu again");
@@ -33,11 +34,11 @@ namespace Project
         {
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("             WHAT YOU WANT TO PLAY");
+            Console.WriteLine("         CHOOSE ANY ONE OF THE FOLLOWING");
             Console.WriteLine("+---------------------------------------------+");
             Console.WriteLine("1 to last --- to choosen card for play");
             Console.WriteLine("90        --- to pick up new card");
-            Console.WriteLine("91        --- to show the main menu again");
+            Console.WriteLine("91        --- to show the hand again");
             Console.WriteLine("92        --- to show the help menu");
             Console.WriteLine("93        --- to go back to main menu");
             Console.WriteLine("+---------------------------------------------+");
@@ -163,6 +164,16 @@ namespace Project
             Console.WriteLine("Player " + gameManager.p + " Wins!");
             Console.WriteLine("Press any key to quit the program......");
             Console.ReadKey();
+        }
+        public void NotRemove()
+        {
+            Console.WriteLine();
+            Console.Write("   Card COLOR or VALUE is not equal. Please Try again.....");
+            Console.WriteLine("   We hope you will choose correct choice next time.");
+            Console.WriteLine();
+            Console.WriteLine("   (HINT: If you don't have matching COLOR or VALUE. Pick a new card OR use a WildCard to scare your opponents)");
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }

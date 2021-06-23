@@ -14,7 +14,7 @@ namespace Project
         int userInput1;
         string input1;
         public int p;
-        bool isReverse;
+        bool isReverse, isSkip;
         bool win;
         public GameManager(Players players)
         {
@@ -23,6 +23,7 @@ namespace Project
             input = "0";
             userInput1 = 1;
             isReverse = false;
+            isSkip = false;
             win = false;
         }
         public void Run(View view)
@@ -45,6 +46,7 @@ namespace Project
                         break;
 
                     case "help": // this thing is nothing for now i was just testing something
+                        view.Help();
                         break;
 
                     case "quit":
@@ -86,8 +88,7 @@ namespace Project
                         case 18:
                         case 19:
                         case 20:
-                            Remove();
-
+                            CanRemove();
                             Turn();
                             break;
 
@@ -96,11 +97,12 @@ namespace Project
                             Turn();
                             break;
 
-                        case 91: // to show main menu again
-                            view.Sos();
+                        case 91:
+                            Display();
                             break;
 
-                        case 92: // this thing is nothing for now i was just testing something
+                        case 92:
+                            view.Help();
                             break;
 
                         case 93:
@@ -117,7 +119,6 @@ namespace Project
             {
                 Play();
             }
-
         }
         public void Deal()
         {
@@ -127,8 +128,6 @@ namespace Project
             PickAbleCard();
             Turn();
         }
-
-
         public void Turn()
         {
             if (!isReverse)
@@ -144,7 +143,7 @@ namespace Project
                 p--;
                 if (p <= 0)
                 {
-                    p = 3 - 1;
+                    p = 3;
                 }
             }
 
@@ -157,7 +156,7 @@ namespace Project
                 DisplayPlayer2();
 
             }
-            else if (p == 3)
+            else
             {
                 DisplayPlayer3();
             }
@@ -176,7 +175,6 @@ namespace Project
             players.DisplayPlayer2Cards();
             view.Player2Junk();
         }
-
         public void DisplayPlayer3()
         {
             view.Player1();
@@ -184,9 +182,23 @@ namespace Project
             players.DisplayPlayer3Cards();
             view.LineDash();
         }
+        public void Display()
+        {
+            if (p == 1)
+            {
+                players.DisplayPlayer1Cards();
+            }
+            else if (p == 2)
+            {
+                players.DisplayPlayer2Cards();
+            }
+            else
+            {
+                players.DisplayPlayer3Cards();
+            }
+        }
         public void Remove()
         {
-
             if (p == 1)
             {
                 if (userInput1 < 0 || userInput1 > players.P1size)
@@ -202,7 +214,6 @@ namespace Project
                     {
                         players.player1Hand[i] = players.player1Hand[i + 1];
                     }
-
                     // Decrement array players.P1size by 1 
                     players.P1size--;
                     Check();
@@ -225,7 +236,6 @@ namespace Project
                     {
                         players.player2Hand[i] = players.player2Hand[i + 1];
                     }
-
                     // Decrement array players.P2size by 1 
                     players.P2size--;
                     Check();
@@ -248,13 +258,11 @@ namespace Project
                     {
                         players.player3Hand[i] = players.player3Hand[i + 1];
                     }
-
                     // Decrement array players.P3size by 1 
                     players.P3size--;
                     Check();
                     view.PlayersRemain();
                     players.DisplayPlayer3Cards();
-
                 }
             }
         }
@@ -276,7 +284,7 @@ namespace Project
                 players.P1size++;
                 view.PlayersRemain();
                 players.DisplayPlayer1Cards();
-                for (long i = userInput1 - 1; i < players.deckSize - 1; i++)
+                for (long i = 0; i < players.deckSize - 1; i++)
                 {
                     players.PickAbleCard[i] = players.PickAbleCard[i + 1];
                 }
@@ -289,7 +297,7 @@ namespace Project
                 players.P2size++;
                 view.PlayersRemain();
                 players.DisplayPlayer2Cards();
-                for (long i = userInput1 - 1; i < players.deckSize - 1; i++)
+                for (long i = 0; i < players.deckSize - 1; i++)
                 {
                     players.PickAbleCard[i] = players.PickAbleCard[i + 1];
                 }
@@ -298,11 +306,11 @@ namespace Project
             }
             if (p == 3)
             {
-                players.player2Hand[players.P2size] = players.PickAbleCard[0];
-                players.P2size++;
+                players.player3Hand[players.P3size] = players.PickAbleCard[0];
+                players.P3size++;
                 view.PlayersRemain();
-                players.DisplayPlayer2Cards();
-                for (long i = userInput1 - 1; i < players.deckSize - 1; i++)
+                players.DisplayPlayer3Cards();
+                for (long i = 0; i < players.deckSize - 1; i++)
                 {
                     players.PickAbleCard[i] = players.PickAbleCard[i + 1];
                 }
@@ -318,6 +326,86 @@ namespace Project
                 win = true;
                 System.Environment.Exit(0);
             }
+        }
+        public void CheckReverse()
+        {
+            if ((players.player1Hand[userInput1 - 1].myValue == Card.VALUE.REVERSE && p == 1)
+            || (players.player2Hand[userInput1 - 1].myValue == Card.VALUE.REVERSE && p == 2)
+            || (players.player3Hand[userInput1 - 1].myValue == Card.VALUE.REVERSE && p == 3))
+            {
+                if (isReverse == false)
+                {
+                    isReverse = true;
+                    Console.WriteLine(" Reverse yes");
+                }
+                else if (isReverse == true)
+                {
+                    isReverse = false;
+                    Console.WriteLine("Reverse no");
+                }
+            }
+            if ((players.player1Hand[userInput1 - 1].myValue == Card.VALUE.SKIP && p == 1)
+            || (players.player2Hand[userInput1 - 1].myValue == Card.VALUE.SKIP && p == 2)
+            || (players.player3Hand[userInput1 - 1].myValue == Card.VALUE.SKIP && p == 3))
+            {
+                isSkip = true;
+                Remove();
+                if (!isReverse)
+                {
+                    if (p == 3)
+                    {
+                        p = 1;
+                        Console.WriteLine(" Skip 3 yes");
+                    }
+                    else
+                    {
+                        p++;
+                        Console.WriteLine(" Skip yes");
+                    }
+                }
+                else if (isReverse)
+                {
+                    if (p == 1)
+                    {
+                        p = 3;
+                        Console.WriteLine(" Skip 3 yes");
+                    }
+                    else
+                    {
+                        p--;
+                        Console.WriteLine(" Skip yes");
+                    }
+                }
+            }
+        }
+        public void CanRemove()
+        {
+            if (((players.player1Hand[userInput1 - 1].myValue == Card.VALUE.WILD) || (players.player1Hand[userInput1 - 1].myCard == Card.COLORCARD.WILDCOLOR)) && p == 1
+            || ((players.player2Hand[userInput1 - 1].myValue == Card.VALUE.WILD) || (players.player2Hand[userInput1 - 1].myCard == Card.COLORCARD.WILDCOLOR)) && p == 2
+            || ((players.player3Hand[userInput1 - 1].myValue == Card.VALUE.WILD) || (players.player3Hand[userInput1 - 1].myCard == Card.COLORCARD.WILDCOLOR)) && p == 3)
+            {
+                CheckReverse();
+                if (!isSkip)
+                    Remove();
+            }
+            else
+            {
+                if (((players.player1Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player1Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 1
+                || ((players.player2Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player2Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 2
+                || ((players.player3Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player3Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 3)
+                {
+                    CheckReverse();
+                    if (!isSkip)
+                        Remove();
+
+                }
+                else
+                {
+                    view.NotRemove();
+                    Play();
+                }
+            }
+            isSkip = false;
         }
     }
 }
