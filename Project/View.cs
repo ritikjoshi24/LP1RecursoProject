@@ -43,9 +43,8 @@ namespace Project
             Console.WriteLine("+---------------------------------------------+");
             Console.WriteLine("1 to last --- to choose CARD for play");
             Console.WriteLine("90        --- to pick up NEW CARD");
-            Console.WriteLine("91        --- to display the HAND again");
-            Console.WriteLine("92        --- to display the HELP menu");
-            Console.WriteLine("93        --- to go back to MAIN menu");
+            Console.WriteLine("91        --- to display the HELP menu");
+            Console.WriteLine("92        --- to quit the program");
             Console.WriteLine("+---------------------------------------------+");
         }
         public int UserInput(int input)
@@ -56,7 +55,7 @@ namespace Project
         public void InvalidOption()
         {
             Console.WriteLine("\nInvalid option.Press any key to continue");
-            Console.ReadKey();
+            Console.ReadLine();
             Console.WriteLine();
         }
         public void PlayerTurn()
@@ -68,8 +67,20 @@ namespace Project
         }
         public void Help()
         {
-            Console.WriteLine("    Help Menu");
-            Console.WriteLine("------------------");
+            Console.WriteLine();
+            Console.WriteLine("                               HELP MENU");
+            Console.WriteLine("+------------------------------------------------------------------------------------------------+");
+            Console.WriteLine("                                WIN:\nWhen a player have no card to play(empty hand). That player wins the game\n\n");
+            Console.WriteLine("                                SKIP:\nThe next player is skipped.\n\n");
+            Console.WriteLine("                                REVERSE:\nReverses the direction of play.\n\n");
+            Console.WriteLine("                                DRAW 2:\nThe next player must draw 2 cards and lose a turn.\n\n");
+            Console.WriteLine("                                DRAW 4:\nChanges the current color plus the next player must draw 4 cards and lose a turn.\n\n");
+            Console.WriteLine("                                WILD CARD:\nPlay this card to change the color to be matched.\n\n");
+            Console.WriteLine("                                STACK:\n+2 and +4 cards can be stacked. +2 can only be stacked on +2. Can only play a +2 on a +2 if holding a +2 and +4. A player that cannot add to the stack must draw the total.\n\n");
+            Console.WriteLine("                                FORCE PLAY:\nIf you draw a playable card, it will be played automatically\n\n");
+            Console.WriteLine("+------------------------------------------------------------------------------------------------+\n");
+            Console.WriteLine("WANT TO CONTINUE. PRESS ANY KEY TO CONTINUE............\n");
+            Console.ReadLine();
         }
         public void Correct()
         {
@@ -79,8 +90,6 @@ namespace Project
         {
             Console.WriteLine();
             Console.WriteLine();
-
-            Console.WriteLine("                                +------------------------------------------------------------------------------+");
             Console.WriteLine("                                       +------ TOTAL CARDS ---------- CURRENT CARD TO MATCH -------+");
             Console.WriteLine("                                              --------------         -----------------------");
             Console.WriteLine("                                              |            |         |                      |");
@@ -162,8 +171,8 @@ namespace Project
         public void PlayerJunk()
         {
             Console.WriteLine();
-            Console.WriteLine("+-----------------------------------------------------------------------------------+");
-            Console.WriteLine("+-----------------------------------------------------------------------------------+");
+            Console.WriteLine("                                +-----------------------------------------------------------------------------------+");
+            Console.WriteLine("                                +-----------------------------------------------------------------------------------+");
         }
         public void PlayerPick()
         {
@@ -189,13 +198,18 @@ namespace Project
         public void isWild()
         {
             Console.WriteLine("\n");
-            Console.WriteLine("                                +-----------YOU PLAYED A WILD CARD. PLEASE CHOOSE A COLOR TO CONTINUE--------------+");
+            Console.WriteLine("                                +-----------YOU PLAYED A WILD CARD. PLEASE CHOOSE A COLOR(like type red for redcolor) TO CONTINUE--------------+");
             Console.WriteLine();
         }
         public void TryAgain()
         {
             Console.WriteLine();
             Console.WriteLine("You didn't choose a color inside game. Please try again.....");
+        }
+        public void NotPickup()
+        {
+            Console.WriteLine();
+            Console.WriteLine("We know you have a same color or value OR let me guess you have wild card. USE THAT");
         }
     }
 }
