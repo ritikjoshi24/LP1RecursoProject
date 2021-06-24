@@ -43,7 +43,7 @@ namespace Project
             Console.WriteLine("+---------------------------------------------+");
             Console.WriteLine("1 to last --- to choose CARD for play");
             Console.WriteLine("90        --- to pick up NEW CARD");
-            Console.WriteLine("91        --- to SHOW the hand");
+            Console.WriteLine("91        --- to display the HAND again");
             Console.WriteLine("92        --- to display the HELP menu");
             Console.WriteLine("93        --- to go back to MAIN menu");
             Console.WriteLine("+---------------------------------------------+");
@@ -62,9 +62,9 @@ namespace Project
         public void PlayerTurn()
         {
             Console.WriteLine();
-            Console.WriteLine("+-----------------------------------------------------------------------------------------+");
-            Console.WriteLine("                               Player " + gameManager.p + " Turn");
-            Console.WriteLine("+-----------------------------------------------------------------------------------------+");
+            Console.WriteLine("                                +-----------------------------------------------------------------------------------+");
+            Console.WriteLine("                                                          Player " + gameManager.p + " Turn");
+            Console.WriteLine("                                +-----------------------------------------------------------------------------------+");
         }
         public void Help()
         {
@@ -79,23 +79,18 @@ namespace Project
         {
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("+---------------------------------------------------------------------------------------------+");
-            Console.WriteLine("       +-------TOTAL CARDS ---------------DECK PILE CARD------------------+");
-            Console.WriteLine("              --------------         -----------------------");
-            Console.WriteLine("              |            |         |                      |");
-            Console.Write("                   " + players.deckSize + "                ");
+
+            Console.WriteLine("                                +------------------------------------------------------------------------------+");
+            Console.WriteLine("                                       +------ TOTAL CARDS ---------- CURRENT CARD TO MATCH -------+");
+            Console.WriteLine("                                              --------------         -----------------------");
+            Console.WriteLine("                                              |            |         |                      |");
+            Console.Write("                                                   " + players.deckSize + "                ");
         }
         public void _DisplayDeck()
         {
             Console.WriteLine();
-            Console.WriteLine("              |            |         |                      |");
-            Console.WriteLine("              --------------         -----------------------");
-        }
-        public void Player1()
-        {
-            Console.WriteLine();
-            Console.WriteLine("---------------PLAYER'S " + gameManager.p + " HAND----------------------");
-            Console.WriteLine();
+            Console.WriteLine("                                              |            |         |                      |");
+            Console.WriteLine("                                              --------------         -----------------------");
         }
         public void DrawCardValue(Card card)
         {
@@ -128,48 +123,53 @@ namespace Project
                 Console.Write("Error");
             }
         }
+        public void DisplayLine()
+        {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("+----------------------------------------------------------- NEW DISPLAY STARTS-----------------------------------------------------------------------+");
+        }
         public void DisplayCard()
         {
             if (gameManager.p == 1)
             {
                 Console.WriteLine();
-                Console.WriteLine("\n                 Player " + gameManager.p + " has " + players.P1size + " cards");
+                Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
+                Console.WriteLine("                                                         Player " + gameManager.p + " has " + players.P1size + " cards");
+                Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
                 Console.WriteLine();
+
             }
             else if (gameManager.p == 2)
             {
                 Console.WriteLine();
-                Console.WriteLine("\n                 Player " + gameManager.p + " has" + players.P2size + " cards");
+                Console.WriteLine("                                +------------------------------------------------------------------------------------+");
+                Console.WriteLine("                                                         Player " + gameManager.p + " has " + players.P2size + " cards");
+                Console.WriteLine("                                +------------------------------------------------------------------------------------+");
                 Console.WriteLine();
             }
             else
             {
                 Console.WriteLine();
-                Console.WriteLine("\n                 Player " + gameManager.p + " has" + players.P3size + " cards");
+                Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
+                Console.WriteLine("                                                         Player " + gameManager.p + " has " + players.P3size + " cards");
+                Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
                 Console.WriteLine();
             }
         }
 
-        public void Player1Junk()
+        public void PlayerJunk()
         {
             Console.WriteLine();
-            Console.WriteLine("------------------------------------------------------");
-            Console.WriteLine();
-            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine("+-----------------------------------------------------------------------------------+");
+            Console.WriteLine("+-----------------------------------------------------------------------------------+");
         }
-        /*   public void PlayersRemain()
-           {
-               Console.WriteLine();
-               if (gameManager.p == 1)
-                   Console.WriteLine("---------------PLAYER'S ONE REMAINING----------------------");
-
-               else if (gameManager.p == 2)
-                   Console.WriteLine("---------------PLAYER'S TWO REMAINING----------------------");
-               else if (gameManager.p == 3)
-                   Console.WriteLine("---------------PLAYER'S THREE REMAINING----------------------");
-               Console.WriteLine();
-               Console.WriteLine();
-           }*/
+        public void PlayerPick()
+        {
+            Console.WriteLine();
+            Console.WriteLine("                                +-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-+");
+        }
         public void Win()
         {
             Console.WriteLine("Player " + gameManager.p + " Wins!");
@@ -189,7 +189,7 @@ namespace Project
         public void isWild()
         {
             Console.WriteLine("\n");
-            Console.WriteLine("+-----------YOU PLAYED A WILD CARD. PLEASE CHOOSE A COLOR TO CONTINUE--------------+");
+            Console.WriteLine("                                +-----------YOU PLAYED A WILD CARD. PLEASE CHOOSE A COLOR TO CONTINUE--------------+");
             Console.WriteLine();
         }
         public void TryAgain()

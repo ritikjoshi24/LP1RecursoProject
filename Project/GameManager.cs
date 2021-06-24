@@ -9,12 +9,10 @@ namespace Project
     {
         private Players players;
         private View view;
-        public string input;
-        public int userInput, p;
-        private int userInput1, turnAgain;
-        private string input1, changeColor;
-        bool isReverse, isSkip, isWildCard;
-        bool win;
+        public int p;
+        private int userInput1, userInput, turnAgain;
+        private string input1, changeColor, input;
+        private bool isReverse, isSkip, isWildCard, isDrawTwo, win;
         public GameManager(Players players)
         {
             this.players = players;
@@ -24,6 +22,7 @@ namespace Project
             isReverse = false;
             isSkip = false;
             isWildCard = false;
+            isDrawTwo = false;
             win = false;
         }
         public void Run(View view)
@@ -56,16 +55,18 @@ namespace Project
             } while (input1 != "quit");
         }
 
-        public void Play()
+        private void Play()
         {
             try
             {
                 do
                 {
+                    view.DisplayLine();
+                    Display();
+                    view.PlayerTurn();
                     view.DisplayDeck();
                     Pile();
                     view._DisplayDeck();
-                    view.PlayerTurn();
                     view.PlayMenu();
                     userInput1 = view.UserInput(userInput);
                     switch (userInput1)
@@ -100,15 +101,7 @@ namespace Project
                             break;
 
                         case 91:
-                            Display();
-                            break;
-
-                        case 92:
                             view.Help();
-                            break;
-
-                        case 93:
-                            Run(view);
                             break;
 
                         default:
@@ -117,8 +110,9 @@ namespace Project
                     }
                 } while ((userInput1 != 93));
             }
-            catch
+            catch (FormatException e)
             {
+                Console.WriteLine(e.Message);
                 view.InvalidOption();
                 Play();
             }
@@ -131,7 +125,7 @@ namespace Project
             players.PutOnPile();
             Turn();
         }
-        public void Pile()
+        private void Pile()
         {
             view.DrawCardValue(players.DeckPile[0]);
         }
@@ -184,98 +178,88 @@ namespace Project
                     PickCard();
                     p = turnAgain;
                 }
+                else if (isDrawTwo)
+                {
+                    PickCard();
+                    PickCard();
+                }
             }
             isSkip = false;
             isWildCard = false;
+            isDrawTwo = false;
             Play();
         }
         private void Display()
         {
             view.DisplayCard();
-            if (p == 1)
+            if (isWildCard || isDrawTwo)
             {
-                for (long i = 0; i < players.P1size; i++)
-                    view.DrawCardValue(players.player1Hand[i]);
-            }
-            else if (p == 2)
-            {
-                for (long i = 0; i < players.P2size; i++)
-                    view.DrawCardValue(players.player2Hand[i]);
+                view.PlayerPick();
             }
             else
             {
-                for (long i = 0; i < players.P3size; i++)
-                    view.DrawCardValue(players.player3Hand[i]);
+                if (p == 1)
+                {
+                    for (long i = 0; i < players.P1size; i++)
+                        view.DrawCardValue(players.player1Hand[i]);
+                }
+                else if (p == 2)
+                {
+                    for (long i = 0; i < players.P2size; i++)
+                        view.DrawCardValue(players.player2Hand[i]);
+                }
+                else
+                {
+                    for (long i = 0; i < players.P3size; i++)
+                        view.DrawCardValue(players.player3Hand[i]);
+                }
             }
         }
         private void Remove()
         {
             if (p == 1)
             {
-                if (userInput1 < 0 || userInput1 > players.P1size)
+                players.DeckPile[0] = players.player1Hand[userInput1 - 1];
+                // Copy next element value to current element 
+                for (long i = userInput1 - 1; i < players.P1size - 1; i++)
                 {
-                    view.Correct();
-                    Play();
+                    players.player1Hand[i] = players.player1Hand[i + 1];
                 }
-                else
-                {
-                    players.DeckPile[0] = players.player1Hand[userInput1 - 1];
-                    // Copy next element value to current element 
-                    for (long i = userInput1 - 1; i < players.P1size - 1; i++)
-                    {
-                        players.player1Hand[i] = players.player1Hand[i + 1];
-                    }
-                    // Decrement array players.P1size by 1 
-                    players.P1size--;
-                    CheckWin();
-                    Display();
-                }
+                // Decrement array players.P1size by 1 
+                players.P1size--;
+                CheckWin();
+                Display();
             }
             else if (p == 2)
             {
-                if (userInput1 < 0 || userInput1 > players.P2size)
+                players.DeckPile[0] = players.player2Hand[userInput1 - 1];
+                // Copy next element value to current element 
+                for (long i = userInput1 - 1; i < players.P2size - 1; i++)
                 {
-                    view.Correct();
-                    Play();
+                    players.player2Hand[i] = players.player2Hand[i + 1];
                 }
-                else
-                {
-                    players.DeckPile[0] = players.player2Hand[userInput1 - 1];
-                    // Copy next element value to current element 
-                    for (long i = userInput1 - 1; i < players.P2size - 1; i++)
-                    {
-                        players.player2Hand[i] = players.player2Hand[i + 1];
-                    }
-                    // Decrement array players.P2size by 1 
-                    players.P2size--;
-                    CheckWin();
-                    Display();
-                }
+                // Decrement array players.P2size by 1 
+                players.P2size--;
+                CheckWin();
+                Display();
             }
             else if (p == 3)
             {
-                if (userInput1 < 0 || userInput1 > players.P3size)
+                players.DeckPile[0] = players.player3Hand[userInput1 - 1];
+                // Copy next element value to current element 
+                for (long i = userInput1 - 1; i < players.P3size - 1; i++)
                 {
-                    view.Correct();
-                    Play();
+                    players.player3Hand[i] = players.player3Hand[i + 1];
                 }
-                else
-                {
-                    players.DeckPile[0] = players.player3Hand[userInput1 - 1];
-                    // Copy next element value to current element 
-                    for (long i = userInput1 - 1; i < players.P3size - 1; i++)
-                    {
-                        players.player3Hand[i] = players.player3Hand[i + 1];
-                    }
-                    // Decrement array players.P3size by 1 
-                    players.P3size--;
-                    CheckWin();
-                    Display();
-                }
+                // Decrement array players.P3size by 1 
+                players.P3size--;
+                CheckWin();
+                Display();
             }
+            view.PlayerJunk();
         }
 
-        public void PickCard()
+        private void PickCard()
         {
             if (p == 1)
             {
@@ -313,6 +297,7 @@ namespace Project
                 // Decrement array players.deckSize by 1 
                 players.deckSize--;
             }
+            view.PlayerJunk();
         }
         private void CheckWin()
         {
@@ -345,22 +330,37 @@ namespace Project
             || (players.player3Hand[userInput1 - 1].myValue == Card.Value.Skip && p == 3))
             {
                 isSkip = true;
+            }
+        }
+        private void CheckDrawTwo()
+        {
+            if ((players.player1Hand[userInput1 - 1].myValue == Card.Value.DrawTwo && p == 1)
+           || (players.player2Hand[userInput1 - 1].myValue == Card.Value.DrawTwo && p == 2)
+           || (players.player3Hand[userInput1 - 1].myValue == Card.Value.DrawTwo && p == 3))
+            {
                 Remove();
+                isDrawTwo = true;
             }
         }
         private void CanRemove()
         {
-            if (((players.player1Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player1Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 1
+            if ((userInput1 < 0 || userInput1 > 21))
+            {
+                view.Correct();
+                Play();
+            }
+            else if (((players.player1Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player1Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 1
             || ((players.player2Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player2Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 2
             || ((players.player3Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player3Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 3)
             {
                 CheckReverse();
-                if (!isSkip)
+                CheckDrawTwo();
+                if (!isDrawTwo)
                     Remove();
             }
             else if (((players.player1Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 1)
-          || ((players.player2Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 2)
-          || ((players.player3Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 3))
+            || ((players.player2Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 2)
+            || ((players.player3Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 3))
             {
                 CheckWildCard();
             }
@@ -389,16 +389,16 @@ namespace Project
         }
         private void CheckWildCard()
         {
-            if ((players.player1Hand[userInput1 - 1].myValue == Card.Value.DrawFour && p == 1)
-           || (players.player2Hand[userInput1 - 1].myValue == Card.Value.DrawFour && p == 2)
-           || (players.player3Hand[userInput1 - 1].myValue == Card.Value.DrawFour && p == 3))
+            int y = userInput1 - 1;
+            Remove();
+            view.isWild();
+            ColorChange();
+
+            if ((players.DeckPile[0].myValue == Card.Value.DrawFour) || (p == 1 && p == 2 && p == 3))
             {
                 isWildCard = true;
                 turnAgain = p;
             }
-            Remove();
-            view.isWild();
-            ColorChange();
         }
     }
 }
