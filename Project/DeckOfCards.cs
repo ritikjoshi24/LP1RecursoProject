@@ -38,7 +38,7 @@ namespace Project
                             case Value.Five:
                             case Value.Eight:
                             case Value.Reverse:
-                            case Value.DrawFour:
+                            case Value.DrawTwo:
                             case Value.Skip:
                                 deck[i] = new Card { myCard = color, myValue = value };
                                 i++;
@@ -47,9 +47,9 @@ namespace Project
                                 break;
 
                             case Value.Zero:
-                                deck[i] = new Card { myCard = color, myValue = value };
-                                i++;
                                 deck[i] = new Card { myCard = color, myValue = Value.Blank };
+                                i++;
+                                deck[i] = new Card { myCard = color, myValue = value };
                                 i++;
                                 break;
                         }
@@ -59,28 +59,30 @@ namespace Project
                 {
                     for (long j = 1; j <= 4; j++)
                     {
-                        deck[i] = new Card { myCard = color, myValue = Value.DrawFour };
+                        deck[i] = new Card { myCard = ColorCard.WildColor, myValue = Value.DrawFour };
                         i++;
-                        deck[i] = new Card { myCard = color, myValue = Value.Wild };
+                        deck[i] = new Card { myCard = ColorCard.WildColor, myValue = Value.Wild };
                         i++;
                     }
                 }
             }
-
-            CardShuffle();
         }
         public void CardShuffle()
         {
             Random rand = new Random();
             Card temp;
-            for (int k = 0; k < NUM_OF_CARDS; k++)
+            // Shuffle 1000 times
+            for (long shuffle = 0; shuffle < 1000; shuffle++)
             {
-                int secondCardIndex = rand.Next(k + 1);
-                temp = deck[k];
-                deck[k] = deck[secondCardIndex];
-                deck[secondCardIndex] = temp;
+                for (int k = 0; k < NUM_OF_CARDS; k++)
+                {
+                    int secondCardIndex = rand.Next(k + 1);
+                    temp = deck[k];
+                    deck[k] = deck[secondCardIndex];
+                    deck[secondCardIndex] = temp;
+                }
             }
-        }
 
+        }
     }
 }
