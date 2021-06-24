@@ -29,7 +29,12 @@ namespace Project
             Console.WriteLine();
             return input;
         }
-
+        public void Choose()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Choose color to you want to change");
+            Console.WriteLine();
+        }
         public void PlayMenu()
         {
             Console.WriteLine();
@@ -70,38 +75,81 @@ namespace Project
         {
             Console.WriteLine("Please enter the correct number between size of your Hand");
         }
-        public void Player1()
+        public void DisplayDeck()
         {
             Console.WriteLine();
             Console.WriteLine();
-<<<<<<< HEAD
             Console.WriteLine("+---------------------------------------------------------------------------------------------+");
             Console.WriteLine("       +-------TOTAL CARDS ---------------DECK PILE CARD------------------+");
             Console.WriteLine("              --------------         -----------------------");
             Console.WriteLine("              |            |         |                      |");
             Console.Write("                   " + players.deckSize + "                ");
-            players.Pile();
+        }
+        public void _DisplayDeck()
+        {
             Console.WriteLine();
             Console.WriteLine("              |            |         |                      |");
             Console.WriteLine("              --------------         -----------------------");
         }
         public void Player1()
         {
-=======
-            Console.WriteLine("+---------------------------------------------------------------------------------------------------+");
-            Console.WriteLine("+------DECK OF CARDS ---------------DECK PILE CARD------------------+");
-            Console.WriteLine("       --------------         -----------------------");
-            Console.WriteLine("       |            |         |                      |");
-            Console.Write("       |     " + players.deckSize + "     |         #");
-            DrawCards.DrawCardValue(players.DeckPile[0]);
-            Console.WriteLine();
-            Console.WriteLine("       |            |         |                      |");
-            Console.WriteLine("       --------------         -----------------------");
->>>>>>> parent of c3fa629 (Organization of GameManager. Removed blank cards from deck)
             Console.WriteLine();
             Console.WriteLine("---------------PLAYER'S " + gameManager.p + " HAND----------------------");
             Console.WriteLine();
         }
+        public void DrawCardValue(Card card)
+        {
+            try
+            {
+                switch (card.myCard)
+                {
+                    case Card.ColorCard.Red:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        break;
+                    case Card.ColorCard.Blue:
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        break;
+                    case Card.ColorCard.Green:
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        break;
+                    case Card.ColorCard.Yellow:
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        break;
+                    case Card.ColorCard.WildColor:
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        break;
+                }
+                Console.Write(" --- " + card.myValue + " " + card.myCard + " --- ");
+
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            catch
+            {
+                Console.Write("Error");
+            }
+        }
+        public void DisplayCard()
+        {
+            if (gameManager.p == 1)
+            {
+                Console.WriteLine();
+                Console.WriteLine("\n                 Player " + gameManager.p + " has " + players.P1size + " cards");
+                Console.WriteLine();
+            }
+            else if (gameManager.p == 2)
+            {
+                Console.WriteLine();
+                Console.WriteLine("\n                 Player " + gameManager.p + " has" + players.P2size + " cards");
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("\n                 Player " + gameManager.p + " has" + players.P3size + " cards");
+                Console.WriteLine();
+            }
+        }
+
         public void Player1Junk()
         {
             Console.WriteLine();
@@ -109,19 +157,19 @@ namespace Project
             Console.WriteLine();
             Console.WriteLine("------------------------------------------------------");
         }
-        public void PlayersRemain()
-        {
-            Console.WriteLine();
-            if (gameManager.p == 1)
-                Console.WriteLine("---------------PLAYER'S ONE REMAINING----------------------");
+        /*   public void PlayersRemain()
+           {
+               Console.WriteLine();
+               if (gameManager.p == 1)
+                   Console.WriteLine("---------------PLAYER'S ONE REMAINING----------------------");
 
-            else if (gameManager.p == 2)
-                Console.WriteLine("---------------PLAYER'S TWO REMAINING----------------------");
-            else if (gameManager.p == 3)
-                Console.WriteLine("---------------PLAYER'S THREE REMAINING----------------------");
-            Console.WriteLine();
-            Console.WriteLine();
-        }
+               else if (gameManager.p == 2)
+                   Console.WriteLine("---------------PLAYER'S TWO REMAINING----------------------");
+               else if (gameManager.p == 3)
+                   Console.WriteLine("---------------PLAYER'S THREE REMAINING----------------------");
+               Console.WriteLine();
+               Console.WriteLine();
+           }*/
         public void Win()
         {
             Console.WriteLine("Player " + gameManager.p + " Wins!");
@@ -137,6 +185,17 @@ namespace Project
             Console.WriteLine("   (HINT: If you don't have matching COLOR or VALUE. Pick a new card OR use a WildCard to scare your opponents)");
             Console.WriteLine();
             Console.WriteLine();
+        }
+        public void isWild()
+        {
+            Console.WriteLine("\n");
+            Console.WriteLine("+-----------YOU PLAYED A WILD CARD. PLEASE CHOOSE A COLOR TO CONTINUE--------------+");
+            Console.WriteLine();
+        }
+        public void TryAgain()
+        {
+            Console.WriteLine();
+            Console.WriteLine("You didn't choose a color inside game. Please try again.....");
         }
     }
 }

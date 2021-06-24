@@ -10,11 +10,10 @@ namespace Project
         private Players players;
         private View view;
         public string input;
-        public int userInput;
-        int userInput1;
-        string input1;
-        public int p;
-        bool isReverse, isSkip;
+        public int userInput, p;
+        private int userInput1, turnAgain;
+        private string input1, changeColor;
+        bool isReverse, isSkip, isWildCard;
         bool win;
         public GameManager(Players players)
         {
@@ -24,6 +23,7 @@ namespace Project
             userInput1 = 1;
             isReverse = false;
             isSkip = false;
+            isWildCard = false;
             win = false;
         }
         public void Run(View view)
@@ -150,7 +150,6 @@ namespace Project
                         p++;
                     }
                 }
-
                 p++;
                 if (p > 3)
                 {
@@ -176,7 +175,18 @@ namespace Project
                     p = 3;
                 }
             }
+            {
+                if (isWildCard)
+                {
+                    PickCard();
+                    PickCard();
+                    PickCard();
+                    PickCard();
+                    p = turnAgain;
+                }
+            }
             isSkip = false;
+            isWildCard = false;
             Play();
         }
         private void Display()
@@ -340,31 +350,55 @@ namespace Project
         }
         private void CanRemove()
         {
-            if (((players.player1Hand[userInput1 - 1].myValue == Card.Value.Wild) || (players.player1Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor)) && p == 1
-            || ((players.player2Hand[userInput1 - 1].myValue == Card.Value.Wild) || (players.player2Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor)) && p == 2
-            || ((players.player3Hand[userInput1 - 1].myValue == Card.Value.Wild) || (players.player3Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor)) && p == 3)
+            if (((players.player1Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player1Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 1
+            || ((players.player2Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player2Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 2
+            || ((players.player3Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player3Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 3)
             {
                 CheckReverse();
                 if (!isSkip)
                     Remove();
             }
+            else if (((players.player1Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 1)
+          || ((players.player2Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 2)
+          || ((players.player3Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 3))
+            {
+                CheckWildCard();
+            }
             else
             {
-                if (((players.player1Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player1Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 1
-                || ((players.player2Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player2Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 2
-                || ((players.player3Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player3Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 3)
-                {
-                    CheckReverse();
-                    if (!isSkip)
-                        Remove();
-
-                }
-                else
-                {
-                    view.NotRemove();
-                    Play();
-                }
+                view.NotRemove();
+                Play();
             }
+        }
+        private void ColorChange()
+        {
+            changeColor = view.Takinginput(input).ToLower();
+            if (changeColor == "blue")
+                players.DeckPile[0].myCard = Card.ColorCard.Blue;
+            else if (changeColor == "green")
+                players.DeckPile[0].myCard = Card.ColorCard.Green;
+            else if (changeColor == "red")
+                players.DeckPile[0].myCard = Card.ColorCard.Red;
+            else if (changeColor == "yellow")
+                players.DeckPile[0].myCard = Card.ColorCard.Yellow;
+            else
+            {
+                view.TryAgain();
+                ColorChange();
+            }
+        }
+        private void CheckWildCard()
+        {
+            if ((players.player1Hand[userInput1 - 1].myValue == Card.Value.DrawFour && p == 1)
+           || (players.player2Hand[userInput1 - 1].myValue == Card.Value.DrawFour && p == 2)
+           || (players.player3Hand[userInput1 - 1].myValue == Card.Value.DrawFour && p == 3))
+            {
+                isWildCard = true;
+                turnAgain = p;
+            }
+            Remove();
+            view.isWild();
+            ColorChange();
         }
     }
 }
