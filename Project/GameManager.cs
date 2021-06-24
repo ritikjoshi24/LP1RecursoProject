@@ -12,18 +12,20 @@ namespace Project
         public int p;
         private int userInput1, userInput, turnAgain;
         private string input1, changeColor, input;
-        private bool isReverse, isSkip, isWildCard, isDrawTwo, win;
+        private bool isReverse, isSkip, isWildCard, isDrawTwo, matched, win, first;
         public GameManager(Players players)
         {
             this.players = players;
             userInput = 1;
             input = "0";
             userInput1 = 1;
+            matched = false;
             isReverse = false;
             isSkip = false;
             isWildCard = false;
             isDrawTwo = false;
             win = false;
+            first = true;
         }
         public void Run(View view)
         {
@@ -62,11 +64,16 @@ namespace Project
                 do
                 {
                     view.DisplayLine();
-                    Display();
                     view.PlayerTurn();
                     view.DisplayDeck();
                     Pile();
                     view._DisplayDeck();
+                    Display();
+                    if (first)
+                    {
+                        CheckPile();
+                        first = false;
+                    }
                     view.PlayMenu();
                     userInput1 = view.UserInput(userInput);
                     switch (userInput1)
@@ -96,7 +103,7 @@ namespace Project
                             break;
 
                         case 90:
-                            PickCard();
+                            CheckMatching();
                             Turn();
                             break;
 
@@ -104,15 +111,19 @@ namespace Project
                             view.Help();
                             break;
 
+                        case 92:
+                            System.Environment.Exit(0);
+                            break;
+
                         default:
                             view.InvalidOption();
+                            Play();
                             break;
                     }
-                } while ((userInput1 != 93));
+                } while (userInput1 != 92);
             }
-            catch (FormatException e)
+            catch
             {
-                Console.WriteLine(e.Message);
                 view.InvalidOption();
                 Play();
             }
@@ -120,10 +131,46 @@ namespace Project
         private void Deal()
         {
             players.CardDeck();
-            //  players.CardShuffle();// create the deck of card and shuffle it
             players.Deck();
             players.PutOnPile();
+            p = 0;
             Turn();
+        }
+        private void CheckPile()
+        {
+            if (players.DeckPile[0].myValue == Card.Value.DrawFour)
+            {
+                players.PutOnPile();
+                first = false;
+                Play();
+            }
+            else if (players.DeckPile[0].myValue == Card.Value.Wild)
+            {
+                view.isWild();
+                ColorChange();
+                first = false;
+                Play();
+            }
+            else if (players.DeckPile[0].myValue == Card.Value.DrawTwo)
+            {
+                PickCard();
+                PickCard();
+                Display();
+            }
+            else if (players.DeckPile[0].myValue == Card.Value.Skip)
+            {
+                p++;
+                Turn();
+                first = false;
+                Play();
+            }
+            else if (players.DeckPile[0].myValue == Card.Value.Reverse)
+            {
+                isReverse = true;
+                Turn();
+                first = false;
+                Play();
+            }
         }
         private void Pile()
         {
@@ -187,6 +234,7 @@ namespace Project
             isSkip = false;
             isWildCard = false;
             isDrawTwo = false;
+            matched = false;
             Play();
         }
         private void Display()
@@ -228,7 +276,6 @@ namespace Project
                 // Decrement array players.P1size by 1 
                 players.P1size--;
                 CheckWin();
-                Display();
             }
             else if (p == 2)
             {
@@ -241,7 +288,6 @@ namespace Project
                 // Decrement array players.P2size by 1 
                 players.P2size--;
                 CheckWin();
-                Display();
             }
             else if (p == 3)
             {
@@ -254,9 +300,7 @@ namespace Project
                 // Decrement array players.P3size by 1 
                 players.P3size--;
                 CheckWin();
-                Display();
             }
-            view.PlayerJunk();
         }
 
         private void PickCard()
@@ -265,7 +309,6 @@ namespace Project
             {
                 players.player1Hand[players.P1size] = players.PickAbleCard[0];
                 players.P1size++;
-                Display();
                 for (long i = 0; i < players.deckSize - 1; i++)
                 {
                     players.PickAbleCard[i] = players.PickAbleCard[i + 1];
@@ -277,7 +320,6 @@ namespace Project
             {
                 players.player2Hand[players.P2size] = players.PickAbleCard[0];
                 players.P2size++;
-                Display();
                 for (long i = 0; i < players.deckSize - 1; i++)
                 {
                     players.PickAbleCard[i] = players.PickAbleCard[i + 1];
@@ -289,7 +331,6 @@ namespace Project
             {
                 players.player3Hand[players.P3size] = players.PickAbleCard[0];
                 players.P3size++;
-                Display();
                 for (long i = 0; i < players.deckSize - 1; i++)
                 {
                     players.PickAbleCard[i] = players.PickAbleCard[i + 1];
@@ -297,7 +338,6 @@ namespace Project
                 // Decrement array players.deckSize by 1 
                 players.deckSize--;
             }
-            view.PlayerJunk();
         }
         private void CheckWin()
         {
@@ -344,12 +384,22 @@ namespace Project
         }
         private void CanRemove()
         {
-            if ((userInput1 < 0 || userInput1 > 21))
+            if (((userInput1 < 0 || userInput1 > players.P1size) && p == 1)
+            || ((userInput1 < 0 || userInput1 > players.P2size) && p == 2)
+            || ((userInput1 < 0 || userInput1 > players.P3size) && p == 3))
             {
                 view.Correct();
+                view.InvalidOption();
                 Play();
             }
-            else if (((players.player1Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player1Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 1
+            else
+            {
+                OtherCondions();
+            }
+        }
+        private void OtherCondions()
+        {
+            if (((players.player1Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player1Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 1
             || ((players.player2Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player2Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 2
             || ((players.player3Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player3Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 3)
             {
@@ -367,6 +417,7 @@ namespace Project
             else
             {
                 view.NotRemove();
+                view.InvalidOption();
                 Play();
             }
         }
@@ -398,6 +449,55 @@ namespace Project
             {
                 isWildCard = true;
                 turnAgain = p;
+            }
+        }
+        private void CheckMatching()
+        {
+            {
+                if (p == 1)
+                {
+                    for (long i = 0; i < players.P1size; i++)
+                    {
+                        if ((players.DeckPile[0].myValue == players.player1Hand[i].myValue) || (players.player1Hand[i].myCard == Card.ColorCard.WildColor)
+                        || (players.DeckPile[0].myCard == players.player1Hand[i].myCard))
+                        {
+                            matched = true;
+                        }
+                    }
+                }
+                else if (p == 2)
+                {
+                    for (long i = 0; i < players.P2size; i++)
+                    {
+                        if ((players.DeckPile[0].myValue == players.player2Hand[i].myValue) || (players.player2Hand[i].myCard == Card.ColorCard.WildColor)
+                        || (players.DeckPile[0].myCard == players.player2Hand[i].myCard))
+                        {
+                            matched = true;
+                        }
+                    }
+                }
+                else if (p == 3)
+                {
+                    for (long i = 0; i < players.P3size; i++)
+                    {
+                        if ((players.DeckPile[0].myValue == players.player3Hand[i].myValue) || (players.player3Hand[i].myCard == Card.ColorCard.WildColor)
+                        || (players.DeckPile[0].myCard == players.player3Hand[i].myCard))
+                        {
+                            matched = true;
+                        }
+                    }
+                }
+            }
+            {
+                if (matched)
+                {
+                    view.NotPickup();
+                    Play();
+                }
+                else
+                {
+                    PickCard();
+                }
             }
         }
     }

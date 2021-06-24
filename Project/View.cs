@@ -29,12 +29,6 @@ namespace Project
             Console.WriteLine();
             return input;
         }
-        public void Choose()
-        {
-            Console.WriteLine();
-            Console.WriteLine("Choose color to you want to change");
-            Console.WriteLine();
-        }
         public void PlayMenu()
         {
             Console.WriteLine();
@@ -166,13 +160,6 @@ namespace Project
                 Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
                 Console.WriteLine();
             }
-        }
-
-        public void PlayerJunk()
-        {
-            Console.WriteLine();
-            Console.WriteLine("                                +-----------------------------------------------------------------------------------+");
-            Console.WriteLine("                                +-----------------------------------------------------------------------------------+");
         }
         public void PlayerPick()
         {
