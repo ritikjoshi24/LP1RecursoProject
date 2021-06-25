@@ -6,7 +6,7 @@ using System.Linq;
 namespace Project
 {
     /// <summary>
-    /// This class draws all the cards, removes the Blank cards and shuffle them
+    /// This class draws all the cards, removes the Blank cards and shuffle them.
     /// </summary>
     public class DeckOfCards : Card
     {

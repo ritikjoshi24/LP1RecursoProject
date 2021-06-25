@@ -52,9 +52,8 @@ namespace Project
             Console.WriteLine("+---------------------------------------------+");
             Console.WriteLine("1 to last --- to choose CARD for play");
             Console.WriteLine("21        --- to pick up NEW CARD");
-            Console.WriteLine("22        --- to challenge player if he says UNO or not");
-            Console.WriteLine("23        --- to display the HELP menu");
-            Console.WriteLine("24        --- to quit the program");
+            Console.WriteLine("22        --- to display the HELP menu");
+            Console.WriteLine("23        --- to quit the program");
             Console.WriteLine("+---------------------------------------------+");
         }
 
@@ -196,7 +195,7 @@ namespace Project
             {
                 Console.WriteLine();
                 Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
-                Console.WriteLine("                                                         Player " + gameManager.p + " has " + players.P1size + " cards");
+                Console.WriteLine("                                                         Player " + gameManager.p + " has " + gameManager.p1size + " cards");
                 Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
                 Console.WriteLine();
 
@@ -205,7 +204,7 @@ namespace Project
             {
                 Console.WriteLine();
                 Console.WriteLine("                                +------------------------------------------------------------------------------------+");
-                Console.WriteLine("                                                         Player " + gameManager.p + " has " + players.P2size + " cards");
+                Console.WriteLine("                                                         Player " + gameManager.p + " has " + gameManager.p2size + " cards");
                 Console.WriteLine("                                +------------------------------------------------------------------------------------+");
                 Console.WriteLine();
             }
@@ -213,7 +212,7 @@ namespace Project
             {
                 Console.WriteLine();
                 Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
-                Console.WriteLine("                                                         Player " + gameManager.p + " has " + players.P3size + " cards");
+                Console.WriteLine("                                                         Player " + gameManager.p + " has " + gameManager.p3size + " cards");
                 Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
                 Console.WriteLine();
             }

@@ -11,20 +11,21 @@ namespace Project
     /// </summary>
     class GameManager
     {
-        Players players = new Players();
+        private Players players;
         private View view;
-        public int p;
+        public int p, p1size, p2size, p3size;
         private int userInput1, userInput, turnAgain;
-        private string input1, changeColor, input, uno, uno1, uno2;
-        private bool isReverse, isSkip, isWildCard, isDrawTwo, matched, win, first, isUno;
+        private string input1, changeColor, input;
+        private bool isReverse, isSkip, isWildCard, isDrawTwo, matched, win, first;
         public GameManager(Players players)
         {
             this.players = players;
             userInput = 1;
             input = "0";
             userInput1 = 1;
-            uno = "0";
-            uno1 = "0";
+            p1size = 7;
+            p2size = 7;
+            p3size = 7;
             matched = false;
             isReverse = false;
             isSkip = false;
@@ -32,7 +33,6 @@ namespace Project
             isDrawTwo = false;
             win = false;
             first = true;
-            isUno = false;
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Project
                     }
                 } while ((userInput1 != 24) || (!win));
             }
-            catch
+            catch (FormatException)
             {
                 view.InvalidOption();
                 Play(view);
@@ -264,10 +264,7 @@ namespace Project
             isWildCard = false;
             isDrawTwo = false;
             matched = false;
-            if (!isUno)
-            {
-                Play(view);
-            }
+            Play(view);
         }
 
         /// <summary>
@@ -275,9 +272,9 @@ namespace Project
         /// </summary>
         private void CanRemove()
         {
-            if (((userInput1 < 0 || userInput1 > players.P1size) && p == 1)
-            || ((userInput1 < 0 || userInput1 > players.P2size) && p == 2)
-            || ((userInput1 < 0 || userInput1 > players.P3size) && p == 3))
+            if (((userInput1 < 0 || userInput1 > p1size) && p == 1)
+            || ((userInput1 < 0 || userInput1 > p2size) && p == 2)
+            || ((userInput1 < 0 || userInput1 > p3size) && p == 3))
             {
                 view.Correct();
                 view.InvalidOption();
@@ -294,7 +291,6 @@ namespace Project
         /// </summary>
         private void OtherCondions()
         {
-            Console.WriteLine("p = " + p);
             if (((players.player1Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player1Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 1
             || ((players.player2Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player2Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 2
             || ((players.player3Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player3Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 3)
@@ -328,29 +324,29 @@ namespace Project
             if (p == 1)
             {
                 players.DeckPile[0] = players.player1Hand[userInput1 - 1];
-                for (long i = userInput1 - 1; i < players.P1size - 1; i++)
+                for (long i = userInput1 - 1; i < p1size - 1; i++)
                 {
                     players.player1Hand[i] = players.player1Hand[i + 1];
                 }
-                players.P1size--;
+                p1size--;
             }
             else if (p == 2)
             {
                 players.DeckPile[0] = players.player2Hand[userInput1 - 1];
-                for (long i = userInput1 - 1; i < players.P2size - 1; i++)
+                for (long i = userInput1 - 1; i < p2size - 1; i++)
                 {
                     players.player2Hand[i] = players.player2Hand[i + 1];
                 }
-                players.P2size--;
+                p2size--;
             }
             else if (p == 3)
             {
                 players.DeckPile[0] = players.player3Hand[userInput1 - 1];
-                for (long i = userInput1 - 1; i < players.P3size - 1; i++)
+                for (long i = userInput1 - 1; i < p3size - 1; i++)
                 {
                     players.player3Hand[i] = players.player3Hand[i + 1];
                 }
-                players.P3size--;
+                p3size--;
             }
             CheckWin();
             view.DisplayCard();
@@ -363,17 +359,17 @@ namespace Project
             view.DisplayCard();
             if (p == 1)
             {
-                for (long i = 0; i < players.P1size; i++)
+                for (long i = 0; i < p1size; i++)
                     view.DrawCardValue(players.player1Hand[i]);
             }
             else if (p == 2)
             {
-                for (long i = 0; i < players.P2size; i++)
+                for (long i = 0; i < p2size; i++)
                     view.DrawCardValue(players.player2Hand[i]);
             }
             else
             {
-                for (long i = 0; i < players.P3size; i++)
+                for (long i = 0; i < p3size; i++)
                     view.DrawCardValue(players.player3Hand[i]);
             }
         }
@@ -385,10 +381,10 @@ namespace Project
             {
                 if (p == 1)
                 {
-                    for (long i = 0; i < players.P1size; i++)
+                    for (long i = 0; i < p1size; i++)
                     {
-                        if ((players.DeckPile[0].myValue == players.player1Hand[i].myValue) || (players.player1Hand[i].myCard == Card.ColorCard.WildColor)
-                        || (players.DeckPile[0].myCard == players.player1Hand[i].myCard))
+                        if ((players.player1Hand[i].myValue == players.DeckPile[0].myValue) || (players.player1Hand[i].myCard == Card.ColorCard.WildColor)
+                        || (players.player1Hand[i].myCard == players.DeckPile[0].myCard))
                         {
                             matched = true;
                         }
@@ -396,10 +392,10 @@ namespace Project
                 }
                 else if (p == 2)
                 {
-                    for (long i = 0; i < players.P2size; i++)
+                    for (long i = 0; i < p2size; i++)
                     {
-                        if ((players.DeckPile[0].myValue == players.player2Hand[i].myValue) || (players.player2Hand[i].myCard == Card.ColorCard.WildColor)
-                        || (players.DeckPile[0].myCard == players.player2Hand[i].myCard))
+                        if ((players.player2Hand[i].myValue == players.DeckPile[0].myValue) || (players.player2Hand[i].myCard == Card.ColorCard.WildColor)
+                        || (players.player2Hand[i].myCard == players.DeckPile[0].myCard))
                         {
                             matched = true;
                         }
@@ -407,10 +403,10 @@ namespace Project
                 }
                 else if (p == 3)
                 {
-                    for (long i = 0; i < players.P3size; i++)
+                    for (long i = 0; i < p3size; i++)
                     {
-                        if ((players.DeckPile[0].myValue == players.player3Hand[i].myValue) || (players.player3Hand[i].myCard == Card.ColorCard.WildColor)
-                        || (players.DeckPile[0].myCard == players.player3Hand[i].myCard))
+                        if ((players.player3Hand[i].myValue == players.DeckPile[0].myValue) || (players.player3Hand[i].myCard == Card.ColorCard.WildColor)
+                        || (players.player3Hand[i].myCard == players.DeckPile[0].myCard))
                         {
                             matched = true;
                         }
@@ -437,8 +433,8 @@ namespace Project
         {
             if (p == 1)
             {
-                players.player1Hand[players.P1size] = players.PickAbleCard[0];
-                players.P1size++;
+                players.player1Hand[p1size] = players.PickAbleCard[0];
+                p1size++;
                 for (long i = 0; i < players.deckSize - 1; i++)
                 {
                     players.PickAbleCard[i] = players.PickAbleCard[i + 1];
@@ -447,8 +443,8 @@ namespace Project
             }
             if (p == 2)
             {
-                players.player2Hand[players.P2size] = players.PickAbleCard[0];
-                players.P2size++;
+                players.player2Hand[p2size] = players.PickAbleCard[0];
+                p2size++;
                 for (long i = 0; i < players.deckSize - 1; i++)
                 {
                     players.PickAbleCard[i] = players.PickAbleCard[i + 1];
@@ -457,8 +453,8 @@ namespace Project
             }
             if (p == 3)
             {
-                players.player3Hand[players.P3size] = players.PickAbleCard[0];
-                players.P3size++;
+                players.player3Hand[p3size] = players.PickAbleCard[0];
+                p3size++;
                 for (long i = 0; i < players.deckSize - 1; i++)
                 {
                     players.PickAbleCard[i] = players.PickAbleCard[i + 1];
@@ -472,7 +468,7 @@ namespace Project
         /// </summary>
         private void CheckWin()
         {
-            if (players.P1size == 0 || players.P2size == 0 || players.P3size == 0)
+            if (p1size == 0 || p2size == 0 || p3size == 0)
             {
                 view.Win();
                 System.Environment.Exit(0);

@@ -15,7 +15,7 @@ namespace Project
         public Card[] player3Hand;
         public Card[] DeckPile;
         public Card[] PickAbleCard;
-        public long P1size, P2size, P3size, deckSize;
+        public long deckSize;
         public Players()
         {
             player1Hand = new Card[40];
@@ -24,9 +24,6 @@ namespace Project
             DeckPile = new Card[3];
             PickAbleCard = new Card[112];
             deckSize = 112;
-            P1size = 7;
-            P2size = 7;
-            P3size = 7;
         }
         public void Deck()
         {
