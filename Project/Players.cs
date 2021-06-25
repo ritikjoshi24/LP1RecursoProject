@@ -10,10 +10,10 @@ namespace Project
     /// </summary>
     class Players : DeckOfCards
     {
-        public Card[] player1Hand;
-        public Card[] player2Hand;
-        public Card[] player3Hand;
-        public Card[] DeckPile;
+        private Card[] player1Hand;
+        private Card[] player2Hand;
+        private Card[] player3Hand;
+        private Card[] DeckPile;
         public Card[] PickAbleCard;
         public long deckSize;
         public Players()
@@ -25,6 +25,10 @@ namespace Project
             PickAbleCard = new Card[112];
             deckSize = 112;
         }
+        public Card[] player1 { get { return player1Hand; } }
+        public Card[] player2 { get { return player2Hand; } }
+        public Card[] player3 { get { return player3Hand; } }
+        public Card[] pile { get { return DeckPile; } }
         public void Deck()
         {
             for (long i = 0; i < 108; i++)
