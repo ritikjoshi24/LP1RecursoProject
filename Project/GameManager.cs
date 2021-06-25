@@ -497,15 +497,14 @@ namespace Project
             || (players.player2[userInput1 - 1].myValue == Card.Value.Reverse && p == 2)
             || (players.player3[userInput1 - 1].myValue == Card.Value.Reverse && p == 3))
             {
+                view.Reverse();
                 if (isReverse == false)
                 {
                     isReverse = true;
-                    Console.WriteLine(" Reverse yes");
                 }
                 else if (isReverse == true)
                 {
                     isReverse = false;
-                    Console.WriteLine("Reverse no");
                 }
             }
             else if ((players.player1[userInput1 - 1].myValue == Card.Value.Skip && p == 1)
@@ -513,6 +512,7 @@ namespace Project
             || (players.player3[userInput1 - 1].myValue == Card.Value.Skip && p == 3))
             {
                 isSkip = true;
+                view.Skip();
             }
         }
 

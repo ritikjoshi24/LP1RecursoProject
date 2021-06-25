@@ -23,7 +23,7 @@ namespace Project
             player3Hand = new Card[40];
             DeckPile = new Card[3];
             PickAbleCard = new Card[112];
-            deckSize = 112;
+            deckSize = 108;
         }
         public Card[] player1 { get { return player1Hand; } }
         public Card[] player2 { get { return player2Hand; } }

@@ -145,34 +145,7 @@ namespace Project
         /// <param name="card"></param>
         public void DrawCardValue(Card card)
         {
-            try
-            {
-                switch (card.myCard)
-                {
-                    case Card.ColorCard.Red:
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        break;
-                    case Card.ColorCard.Blue:
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        break;
-                    case Card.ColorCard.Green:
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        break;
-                    case Card.ColorCard.Yellow:
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        break;
-                    case Card.ColorCard.WildColor:
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        break;
-                }
-                Console.Write(" --- " + card.myValue + " " + card.myCard + " --- ");
-
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            catch
-            {
-                Console.Write("Error");
-            }
+            Console.Write(" --- " + card.myValue + " " + card.myCard + " --- ");
         }
 
         /// <summary>
@@ -292,6 +265,14 @@ namespace Project
         {
             Console.WriteLine();
             Console.WriteLine("We know you have a same color or value OR let me guess you have wild card. USE THAT");
+        }
+        public void Reverse()
+        {
+            Console.WriteLine("                      REVERSE CARD HAS BEEN PLAYED");
+        }
+        public void Skip()
+        {
+            Console.WriteLine("                      SKIP CARD HAS BEEN PLAYED");
         }
     }
 }
