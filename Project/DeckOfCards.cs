@@ -5,17 +5,27 @@ using System.Threading.Tasks;
 using System.Linq;
 namespace Project
 {
+    /// <summary>
+    /// This class draws all the cards, removes the Blank cards and shuffle them
+    /// </summary>
     public class DeckOfCards : Card
     {
-        const long NUM_OF_CARDS = 112;
+        private long NUM_OF_CARDS = 112;
+        public long empty;
         public Card[] deck;
+        public Card[] emptyCard;
         public DeckOfCards()
         {
 
             deck = new Card[NUM_OF_CARDS];
+            emptyCard = new Card[4];
 
         }
         public Card[] getDeck { get { return deck; } }
+
+        /// <summary>
+        /// Gives the value to each card and duplicate it except zero , blank and wild cards
+        /// </summary>
         public void CardDeck()
         {
             long i = 0;
@@ -66,7 +76,31 @@ namespace Project
                     }
                 }
             }
+            RemoveEmpty();
+            CardShuffle();
         }
+        /// <summary>
+        /// Remove the Blank cards from deck
+        /// </summary>
+        public void RemoveEmpty()
+        {
+            for (long i = 0; i < 112; i++)
+            {
+                if (i == 0 || i == 25 || i == 58 || i == 83)
+                {
+                    emptyCard[empty] = deck[i];
+                    empty++;
+                    for (long j = i; j < NUM_OF_CARDS - 1; j++)
+                    {
+                        getDeck[j] = getDeck[j + 1];
+                    }
+                    NUM_OF_CARDS--;
+                }
+            }
+        }
+        /// <summary>
+        /// Does shuffling of cards
+        /// </summary>
         public void CardShuffle()
         {
             Random rand = new Random();

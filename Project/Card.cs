@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Linq;
 namespace Project
 {
+    /// <summary>
+    /// This class contains all the cards and it's value
+    /// </summary>
     public class Card
     {
         public enum ColorCard

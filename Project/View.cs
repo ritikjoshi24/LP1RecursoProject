@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 namespace Project
 {
+    /// <summary>
+    /// This class contains all the readline , writeline code and it is responsible for drawing the card in the display
+    /// </summary>
     class View
     {
         private GameManager gameManager;
@@ -11,7 +14,10 @@ namespace Project
             this.gameManager = gameManager;
             this.players = players;
         }
-        public void Sos() // this is the main menu
+        /// <summary>
+        /// Display the main menu of the game
+        /// </summary>
+        public void Sos()
         {
             Console.WriteLine();
             Console.WriteLine("+---------------------------------------------+");
@@ -22,6 +28,11 @@ namespace Project
             Console.WriteLine("+---------------------------------------------+");
         }
 
+        /// <summary>
+        /// Ask user to input the string.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>returns the string </returns>
         public string Takinginput(string input)
         {
             Console.Write("\n> ");
@@ -29,6 +40,10 @@ namespace Project
             Console.WriteLine();
             return input;
         }
+
+        /// <summary>
+        /// Display the play menu
+        /// </summary>
         public void PlayMenu()
         {
             Console.WriteLine();
@@ -36,22 +51,36 @@ namespace Project
             Console.WriteLine("         CHOOSE ANY ONE OF THE FOLLOWING");
             Console.WriteLine("+---------------------------------------------+");
             Console.WriteLine("1 to last --- to choose CARD for play");
-            Console.WriteLine("90        --- to pick up NEW CARD");
-            Console.WriteLine("91        --- to display the HELP menu");
-            Console.WriteLine("92        --- to quit the program");
+            Console.WriteLine("21        --- to pick up NEW CARD");
+            Console.WriteLine("22        --- to challenge player if he says UNO or not");
+            Console.WriteLine("23        --- to display the HELP menu");
+            Console.WriteLine("24        --- to quit the program");
             Console.WriteLine("+---------------------------------------------+");
         }
+
+        /// <summary>
+        /// Ask user to input the integer data from Menu
+        /// </summary>
+        /// <returns>returns the integer number</returns>
         public int UserInput(int input)
         {
             Console.Write("\n> ");
             return int.Parse(Console.ReadLine());
         }
+
+        /// <summary>
+        /// When player input invalid option like string instead of integer number
+        /// </summary>
         public void InvalidOption()
         {
             Console.WriteLine("\nInvalid option.Press any key to continue");
             Console.ReadLine();
             Console.WriteLine();
         }
+
+        /// <summary>
+        /// Displays which player turns.
+        /// </summary>
         public void PlayerTurn()
         {
             Console.WriteLine();
@@ -59,6 +88,10 @@ namespace Project
             Console.WriteLine("                                                          Player " + gameManager.p + " Turn");
             Console.WriteLine("                                +-----------------------------------------------------------------------------------+");
         }
+
+        /// <summary>
+        /// Displays Help menu
+        /// </summary>
         public void Help()
         {
             Console.WriteLine();
@@ -70,31 +103,47 @@ namespace Project
             Console.WriteLine("                                DRAW 2:\nThe next player must draw 2 cards and lose a turn.\n\n");
             Console.WriteLine("                                DRAW 4:\nChanges the current color plus the next player must draw 4 cards and lose a turn.\n\n");
             Console.WriteLine("                                WILD CARD:\nPlay this card to change the color to be matched.\n\n");
-            Console.WriteLine("                                STACK:\n+2 and +4 cards can be stacked. +2 can only be stacked on +2. Can only play a +2 on a +2 if holding a +2 and +4. A player that cannot add to the stack must draw the total.\n\n");
             Console.WriteLine("                                FORCE PLAY:\nIf you draw a playable card, it will be played automatically\n\n");
             Console.WriteLine("+------------------------------------------------------------------------------------------------+\n");
             Console.WriteLine("WANT TO CONTINUE. PRESS ANY KEY TO CONTINUE............\n");
             Console.ReadLine();
         }
+
+        /// <summary>
+        /// When player tries to input negative number or large number than total cards
+        /// </summary>
         public void Correct()
         {
             Console.WriteLine("Please enter the correct number between size of your Hand");
         }
+
+        /// <summary>
+        /// Displays the Total cards and discard pile
+        /// </summary>
         public void DisplayDeck()
         {
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("                                       +------ TOTAL CARDS ---------- CURRENT CARD TO MATCH -------+");
-            Console.WriteLine("                                              --------------         -----------------------");
-            Console.WriteLine("                                              |            |         |                      |");
-            Console.Write("                                                   " + players.deckSize + "                ");
+            Console.WriteLine("                                       +------ TOTAL CARDS ---------- CURRENT CARD TO MATCH(Discard pile) -------+");
+            Console.WriteLine("                                              --------------         ------------------------------------");
+            Console.WriteLine("                                              |            |         |                                  |");
+            Console.Write("                                                   " + players.deckSize + "                      ");
         }
+
+        /// <summary>
+        /// Display bottom part of the total cards and discard pile
+        /// </summary>
         public void _DisplayDeck()
         {
             Console.WriteLine();
-            Console.WriteLine("                                              |            |         |                      |");
-            Console.WriteLine("                                              --------------         -----------------------");
+            Console.WriteLine("                                              |            |         |                                  |");
+            Console.WriteLine("                                              --------------         ------------------------------------");
         }
+
+        /// <summary>
+        /// Accepts the particular card and Draws on card for display 
+        /// </summary>
+        /// <param name="card"></param>
         public void DrawCardValue(Card card)
         {
             try
@@ -126,6 +175,10 @@ namespace Project
                 Console.Write("Error");
             }
         }
+
+        /// <summary>
+        /// Display the line each time a new display start
+        /// </summary>
         public void DisplayLine()
         {
             Console.WriteLine();
@@ -133,6 +186,10 @@ namespace Project
             Console.WriteLine();
             Console.WriteLine("+----------------------------------------------------------- NEW DISPLAY STARTS-----------------------------------------------------------------------+");
         }
+
+        /// <summary>
+        /// Display how much cards each player has left.
+        /// </summary>
         public void DisplayCard()
         {
             if (gameManager.p == 1)
@@ -161,17 +218,44 @@ namespace Project
                 Console.WriteLine();
             }
         }
-        public void PlayerPick()
+
+        /// <summary>
+        /// when player players draw two. This methods appear for next player
+        /// </summary>
+        public void PickPlusTwo()
         {
             Console.WriteLine();
-            Console.WriteLine("                                +-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-+");
+            Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
+            Console.WriteLine("                                                         Player " + gameManager.p + " picks +2 cards");
+            Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
+            Console.WriteLine();
         }
+
+        /// <summary>
+        /// when player players draw four. This methods appear for next player
+        /// </summary>
+        public void PickPlusFour()
+        {
+            Console.WriteLine();
+            Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
+            Console.WriteLine("                                                         Player " + gameManager.p + " picks +4 cards");
+            Console.WriteLine("                                +-------------------------------------------------------------------------------------+");
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// When player Wins the game
+        /// </summary>
         public void Win()
         {
             Console.WriteLine("Player " + gameManager.p + " Wins!");
             Console.WriteLine("Press any key to quit the program......");
             Console.ReadKey();
         }
+
+        /// <summary>
+        /// When player tries to remove the card of other value or color compare to discard pile.
+        /// </summary>
         public void NotRemove()
         {
             Console.WriteLine();
@@ -182,17 +266,29 @@ namespace Project
             Console.WriteLine();
             Console.WriteLine();
         }
+
+        /// <summary>
+        /// When players plays a wildColor Card and have to choose a color.
+        /// </summary>
         public void isWild()
         {
             Console.WriteLine("\n");
-            Console.WriteLine("                                +-----------YOU PLAYED A WILD CARD. PLEASE CHOOSE A COLOR(like type red for redcolor) TO CONTINUE--------------+");
+            Console.WriteLine("                       +-----------YOU PLAYED A WILD CARD. PLEASE CHOOSE A COLOR(like type red or RED for redcolor) TO CONTINUE--------------+");
             Console.WriteLine();
         }
+
+        /// <summary>
+        /// when player didn't pick a color. After playing wildcard
+        /// </summary>
         public void TryAgain()
         {
             Console.WriteLine();
             Console.WriteLine("You didn't choose a color inside game. Please try again.....");
         }
+
+        /// <summary>
+        /// If players tries to pick a card but has a matching card to current matching card(Discard pile)
+        /// </summary>
         public void NotPickup()
         {
             Console.WriteLine();

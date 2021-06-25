@@ -5,20 +5,26 @@ using System.Threading.Tasks;
 using System.Linq;
 namespace Project
 {
+    /// <summary>
+    /// This class contains the whole flow of the program it contains two switch statement and various methods which maintain the flow of program.
+    /// This class has all the methods for checking 
+    /// </summary>
     class GameManager
     {
-        private Players players;
+        Players players = new Players();
         private View view;
         public int p;
         private int userInput1, userInput, turnAgain;
-        private string input1, changeColor, input;
-        private bool isReverse, isSkip, isWildCard, isDrawTwo, matched, win, first;
+        private string input1, changeColor, input, uno, uno1, uno2;
+        private bool isReverse, isSkip, isWildCard, isDrawTwo, matched, win, first, isUno;
         public GameManager(Players players)
         {
             this.players = players;
             userInput = 1;
             input = "0";
             userInput1 = 1;
+            uno = "0";
+            uno1 = "0";
             matched = false;
             isReverse = false;
             isSkip = false;
@@ -26,7 +32,12 @@ namespace Project
             isDrawTwo = false;
             win = false;
             first = true;
+            isUno = false;
         }
+
+        /// <summary>
+        /// This method has a workflow of the entire program and have a method to run the game
+        /// </summary>
         public void Run(View view)
         {
             this.view = view;
@@ -39,14 +50,14 @@ namespace Project
                 switch (input1)
                 {
                     case "play":
-                        Deal();// to play the game
+                        Deal();
                         break;
 
-                    case "show": // to show main menu again
+                    case "show":
                         view.Sos();
                         break;
 
-                    case "help": // this thing is nothing for now i was just testing something
+                    case "help":
                         view.Help();
                         break;
 
@@ -57,7 +68,10 @@ namespace Project
             } while (input1 != "quit");
         }
 
-        private void Play()
+        /// <summary>
+        /// This method contains the whole loop inside the game
+        /// </summary>
+        private void Play(View view)
         {
             try
             {
@@ -99,35 +113,38 @@ namespace Project
                         case 19:
                         case 20:
                             CanRemove();
-                            Turn();
                             break;
 
-                        case 90:
+                        case 21:
                             CheckMatching();
-                            Turn();
                             break;
 
-                        case 91:
+                        case 22:
                             view.Help();
                             break;
 
-                        case 92:
+                        case 23:
                             System.Environment.Exit(0);
                             break;
 
                         default:
                             view.InvalidOption();
-                            Play();
+                            Play(view);
                             break;
                     }
-                } while (userInput1 != 92);
+                } while ((userInput1 != 24) || (!win));
             }
             catch
             {
                 view.InvalidOption();
-                Play();
+                Play(view);
             }
         }
+
+        /// <summary>
+        /// This methods calls in the beginning of the game.
+        /// It draws the random cards and give it to players to play
+        /// </summary>
         private void Deal()
         {
             players.CardDeck();
@@ -136,46 +153,56 @@ namespace Project
             p = 0;
             Turn();
         }
+
+        /// <summary>
+        /// Draw the cuurent play card on display
+        /// </summary>
+        private void Pile()
+        {
+            view.DrawCardValue(players.DeckPile[0]);
+        }
+
+        /// <summary>
+        /// Checks if there is a wildcard or other special cards
+        /// </summary>
         private void CheckPile()
         {
             if (players.DeckPile[0].myValue == Card.Value.DrawFour)
             {
                 players.PutOnPile();
                 first = false;
-                Play();
+                Play(view);
             }
             else if (players.DeckPile[0].myValue == Card.Value.Wild)
             {
                 view.isWild();
                 ColorChange();
                 first = false;
-                Play();
+                Play(view);
             }
             else if (players.DeckPile[0].myValue == Card.Value.DrawTwo)
             {
                 PickCard();
                 PickCard();
+                first = false;
                 Display();
             }
             else if (players.DeckPile[0].myValue == Card.Value.Skip)
             {
-                p++;
-                Turn();
                 first = false;
-                Play();
+                Turn();
             }
             else if (players.DeckPile[0].myValue == Card.Value.Reverse)
             {
                 isReverse = true;
-                Turn();
                 first = false;
-                Play();
+                Turn();
             }
         }
-        private void Pile()
-        {
-            view.DrawCardValue(players.DeckPile[0]);
-        }
+
+        /// <summary>
+        /// Player turns according to skip and reverse cards as well
+        /// </summary>
         private void Turn()
         {
             if (!isReverse)
@@ -223,165 +250,29 @@ namespace Project
                     PickCard();
                     PickCard();
                     PickCard();
+                    view.PickPlusFour();
                     p = turnAgain;
                 }
                 else if (isDrawTwo)
                 {
                     PickCard();
                     PickCard();
+                    view.PickPlusTwo();
                 }
             }
             isSkip = false;
             isWildCard = false;
             isDrawTwo = false;
             matched = false;
-            Play();
-        }
-        private void Display()
-        {
-            view.DisplayCard();
-            if (isWildCard || isDrawTwo)
+            if (!isUno)
             {
-                view.PlayerPick();
-            }
-            else
-            {
-                if (p == 1)
-                {
-                    for (long i = 0; i < players.P1size; i++)
-                        view.DrawCardValue(players.player1Hand[i]);
-                }
-                else if (p == 2)
-                {
-                    for (long i = 0; i < players.P2size; i++)
-                        view.DrawCardValue(players.player2Hand[i]);
-                }
-                else
-                {
-                    for (long i = 0; i < players.P3size; i++)
-                        view.DrawCardValue(players.player3Hand[i]);
-                }
-            }
-        }
-        private void Remove()
-        {
-            if (p == 1)
-            {
-                players.DeckPile[0] = players.player1Hand[userInput1 - 1];
-                // Copy next element value to current element 
-                for (long i = userInput1 - 1; i < players.P1size - 1; i++)
-                {
-                    players.player1Hand[i] = players.player1Hand[i + 1];
-                }
-                // Decrement array players.P1size by 1 
-                players.P1size--;
-                CheckWin();
-            }
-            else if (p == 2)
-            {
-                players.DeckPile[0] = players.player2Hand[userInput1 - 1];
-                // Copy next element value to current element 
-                for (long i = userInput1 - 1; i < players.P2size - 1; i++)
-                {
-                    players.player2Hand[i] = players.player2Hand[i + 1];
-                }
-                // Decrement array players.P2size by 1 
-                players.P2size--;
-                CheckWin();
-            }
-            else if (p == 3)
-            {
-                players.DeckPile[0] = players.player3Hand[userInput1 - 1];
-                // Copy next element value to current element 
-                for (long i = userInput1 - 1; i < players.P3size - 1; i++)
-                {
-                    players.player3Hand[i] = players.player3Hand[i + 1];
-                }
-                // Decrement array players.P3size by 1 
-                players.P3size--;
-                CheckWin();
+                Play(view);
             }
         }
 
-        private void PickCard()
-        {
-            if (p == 1)
-            {
-                players.player1Hand[players.P1size] = players.PickAbleCard[0];
-                players.P1size++;
-                for (long i = 0; i < players.deckSize - 1; i++)
-                {
-                    players.PickAbleCard[i] = players.PickAbleCard[i + 1];
-                }
-                // Decrement array players.deckSize by 1 
-                players.deckSize--;
-            }
-            if (p == 2)
-            {
-                players.player2Hand[players.P2size] = players.PickAbleCard[0];
-                players.P2size++;
-                for (long i = 0; i < players.deckSize - 1; i++)
-                {
-                    players.PickAbleCard[i] = players.PickAbleCard[i + 1];
-                }
-                // Decrement array players.deckSize by 1 
-                players.deckSize--;
-            }
-            if (p == 3)
-            {
-                players.player3Hand[players.P3size] = players.PickAbleCard[0];
-                players.P3size++;
-                for (long i = 0; i < players.deckSize - 1; i++)
-                {
-                    players.PickAbleCard[i] = players.PickAbleCard[i + 1];
-                }
-                // Decrement array players.deckSize by 1 
-                players.deckSize--;
-            }
-        }
-        private void CheckWin()
-        {
-            if (players.P1size == 0 || players.P2size == 0 || players.P3size == 0)
-            {
-                view.Win();
-                win = true;
-                System.Environment.Exit(0);
-            }
-        }
-        private void CheckReverse()
-        {
-            if ((players.player1Hand[userInput1 - 1].myValue == Card.Value.Reverse && p == 1)
-            || (players.player2Hand[userInput1 - 1].myValue == Card.Value.Reverse && p == 2)
-            || (players.player3Hand[userInput1 - 1].myValue == Card.Value.Reverse && p == 3))
-            {
-                if (isReverse == false)
-                {
-                    isReverse = true;
-                    Console.WriteLine(" Reverse yes");
-                }
-                else if (isReverse == true)
-                {
-                    isReverse = false;
-                    Console.WriteLine("Reverse no");
-                }
-            }
-            if ((players.player1Hand[userInput1 - 1].myValue == Card.Value.Skip && p == 1)
-            || (players.player2Hand[userInput1 - 1].myValue == Card.Value.Skip && p == 2)
-            || (players.player3Hand[userInput1 - 1].myValue == Card.Value.Skip && p == 3))
-            {
-                isSkip = true;
-            }
-        }
-        private void CheckDrawTwo()
-        {
-            if ((players.player1Hand[userInput1 - 1].myValue == Card.Value.DrawTwo && p == 1)
-           || (players.player2Hand[userInput1 - 1].myValue == Card.Value.DrawTwo && p == 2)
-           || (players.player3Hand[userInput1 - 1].myValue == Card.Value.DrawTwo && p == 3))
-            {
-                Remove();
-                isDrawTwo = true;
-            }
-        }
+        /// <summary>
+        /// Checks if player choose the card between his hand or not
+        /// </summary>
         private void CanRemove()
         {
             if (((userInput1 < 0 || userInput1 > players.P1size) && p == 1)
@@ -390,23 +281,30 @@ namespace Project
             {
                 view.Correct();
                 view.InvalidOption();
-                Play();
+                Play(view);
             }
             else
             {
                 OtherCondions();
+                Turn();
             }
         }
+        /// <summary>
+        /// Checks if player choose the matching card or value 
+        /// </summary>
         private void OtherCondions()
         {
+            Console.WriteLine("p = " + p);
             if (((players.player1Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player1Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 1
             || ((players.player2Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player2Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 2
             || ((players.player3Hand[userInput1 - 1].myValue == players.DeckPile[0].myValue) || (players.player3Hand[userInput1 - 1].myCard == players.DeckPile[0].myCard)) && p == 3)
             {
-                CheckReverse();
+                CheckReverseAndSkip();
                 CheckDrawTwo();
                 if (!isDrawTwo)
+                {
                     Remove();
+                }
             }
             else if (((players.player1Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 1)
             || ((players.player2Hand[userInput1 - 1].myCard == Card.ColorCard.WildColor) && p == 2)
@@ -418,39 +316,70 @@ namespace Project
             {
                 view.NotRemove();
                 view.InvalidOption();
-                Play();
+                Play(view);
             }
         }
-        private void ColorChange()
+
+        /// <summary>
+        /// After allowing removal card. It removes the card from player hand
+        /// </summary>
+        private void Remove()
         {
-            changeColor = view.Takinginput(input).ToLower();
-            if (changeColor == "blue")
-                players.DeckPile[0].myCard = Card.ColorCard.Blue;
-            else if (changeColor == "green")
-                players.DeckPile[0].myCard = Card.ColorCard.Green;
-            else if (changeColor == "red")
-                players.DeckPile[0].myCard = Card.ColorCard.Red;
-            else if (changeColor == "yellow")
-                players.DeckPile[0].myCard = Card.ColorCard.Yellow;
+            if (p == 1)
+            {
+                players.DeckPile[0] = players.player1Hand[userInput1 - 1];
+                for (long i = userInput1 - 1; i < players.P1size - 1; i++)
+                {
+                    players.player1Hand[i] = players.player1Hand[i + 1];
+                }
+                players.P1size--;
+            }
+            else if (p == 2)
+            {
+                players.DeckPile[0] = players.player2Hand[userInput1 - 1];
+                for (long i = userInput1 - 1; i < players.P2size - 1; i++)
+                {
+                    players.player2Hand[i] = players.player2Hand[i + 1];
+                }
+                players.P2size--;
+            }
+            else if (p == 3)
+            {
+                players.DeckPile[0] = players.player3Hand[userInput1 - 1];
+                for (long i = userInput1 - 1; i < players.P3size - 1; i++)
+                {
+                    players.player3Hand[i] = players.player3Hand[i + 1];
+                }
+                players.P3size--;
+            }
+            CheckWin();
+            view.DisplayCard();
+        }
+        /// <summary>
+        /// Display the cards of players
+        /// </summary>
+        private void Display()
+        {
+            view.DisplayCard();
+            if (p == 1)
+            {
+                for (long i = 0; i < players.P1size; i++)
+                    view.DrawCardValue(players.player1Hand[i]);
+            }
+            else if (p == 2)
+            {
+                for (long i = 0; i < players.P2size; i++)
+                    view.DrawCardValue(players.player2Hand[i]);
+            }
             else
             {
-                view.TryAgain();
-                ColorChange();
+                for (long i = 0; i < players.P3size; i++)
+                    view.DrawCardValue(players.player3Hand[i]);
             }
         }
-        private void CheckWildCard()
-        {
-            int y = userInput1 - 1;
-            Remove();
-            view.isWild();
-            ColorChange();
-
-            if ((players.DeckPile[0].myValue == Card.Value.DrawFour) || (p == 1 && p == 2 && p == 3))
-            {
-                isWildCard = true;
-                turnAgain = p;
-            }
-        }
+        /// <summary>
+        /// Check if player have a matching card or value or wild card when try to pick a new card
+        /// </summary>
         private void CheckMatching()
         {
             {
@@ -492,12 +421,138 @@ namespace Project
                 if (matched)
                 {
                     view.NotPickup();
-                    Play();
+                    Play(view);
                 }
                 else
                 {
                     PickCard();
+                    Turn();
                 }
+            }
+        }
+        /// <summary>
+        /// When player is allowed to pick card. Player picks a new card
+        /// </summary>
+        private void PickCard()
+        {
+            if (p == 1)
+            {
+                players.player1Hand[players.P1size] = players.PickAbleCard[0];
+                players.P1size++;
+                for (long i = 0; i < players.deckSize - 1; i++)
+                {
+                    players.PickAbleCard[i] = players.PickAbleCard[i + 1];
+                }
+                players.deckSize--;
+            }
+            if (p == 2)
+            {
+                players.player2Hand[players.P2size] = players.PickAbleCard[0];
+                players.P2size++;
+                for (long i = 0; i < players.deckSize - 1; i++)
+                {
+                    players.PickAbleCard[i] = players.PickAbleCard[i + 1];
+                }
+                players.deckSize--;
+            }
+            if (p == 3)
+            {
+                players.player3Hand[players.P3size] = players.PickAbleCard[0];
+                players.P3size++;
+                for (long i = 0; i < players.deckSize - 1; i++)
+                {
+                    players.PickAbleCard[i] = players.PickAbleCard[i + 1];
+                }
+                players.deckSize--;
+            }
+        }
+
+        /// <summary>
+        /// Checks if player wins the game after removal of a card
+        /// </summary>
+        private void CheckWin()
+        {
+            if (players.P1size == 0 || players.P2size == 0 || players.P3size == 0)
+            {
+                view.Win();
+                System.Environment.Exit(0);
+            }
+        }
+
+        /// <summary>
+        /// Checks if reverse or Skip card is played by a player
+        /// </summary>
+        private void CheckReverseAndSkip()
+        {
+            if ((players.player1Hand[userInput1 - 1].myValue == Card.Value.Reverse && p == 1)
+            || (players.player2Hand[userInput1 - 1].myValue == Card.Value.Reverse && p == 2)
+            || (players.player3Hand[userInput1 - 1].myValue == Card.Value.Reverse && p == 3))
+            {
+                if (isReverse == false)
+                {
+                    isReverse = true;
+                    Console.WriteLine(" Reverse yes");
+                }
+                else if (isReverse == true)
+                {
+                    isReverse = false;
+                    Console.WriteLine("Reverse no");
+                }
+            }
+            else if ((players.player1Hand[userInput1 - 1].myValue == Card.Value.Skip && p == 1)
+            || (players.player2Hand[userInput1 - 1].myValue == Card.Value.Skip && p == 2)
+            || (players.player3Hand[userInput1 - 1].myValue == Card.Value.Skip && p == 3))
+            {
+                isSkip = true;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the player plays Draw two
+        /// </summary>
+        private void CheckDrawTwo()
+        {
+            if ((players.player1Hand[userInput1 - 1].myValue == Card.Value.DrawTwo && p == 1)
+            || (players.player2Hand[userInput1 - 1].myValue == Card.Value.DrawTwo && p == 2)
+            || (players.player3Hand[userInput1 - 1].myValue == Card.Value.DrawTwo && p == 3))
+            {
+                Remove();
+                isDrawTwo = true;
+            }
+        }
+        /// <summary>
+        /// Check if the players plays a wild card
+        /// </summary>
+        private void CheckWildCard()
+        {
+            Remove();
+            view.isWild();
+            ColorChange();
+
+            if ((players.DeckPile[0].myValue == Card.Value.DrawFour) || (p == 1 && p == 2 && p == 3))
+            {
+                isWildCard = true;
+                turnAgain = p;
+            }
+        }
+        /// <summary>
+        /// Asks user to change the color after a wildcard
+        /// </summary>
+        private void ColorChange()
+        {
+            changeColor = view.Takinginput(input).ToLower();
+            if (changeColor == "blue")
+                players.DeckPile[0].myCard = Card.ColorCard.Blue;
+            else if (changeColor == "green")
+                players.DeckPile[0].myCard = Card.ColorCard.Green;
+            else if (changeColor == "red")
+                players.DeckPile[0].myCard = Card.ColorCard.Red;
+            else if (changeColor == "yellow")
+                players.DeckPile[0].myCard = Card.ColorCard.Yellow;
+            else
+            {
+                view.TryAgain();
+                ColorChange();
             }
         }
     }
